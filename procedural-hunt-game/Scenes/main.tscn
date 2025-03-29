@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://civyoxlhsyxtj"]
+
+[ext_resource type="Script" uid="uid://ba7tp2tt7mcjw" path="res://Scripts/MapGenerator.cs" id="1_jjgbg"]
+[ext_resource type="PackedScene" uid="uid://b4mqfhoqf4y55" path="res://Scenes/Rooms/roomC01.tscn" id="2_ynf5e"]
+
+[node name="Game" type="Node2D"]
+
+[node name="GameManager" type="Node2D" parent="."]
+
+[node name="MapGenerator" type="Node2D" parent="."]
+script = ExtResource("1_jjgbg")
+_upRoomScenes = Array[PackedScene]([ExtResource("2_ynf5e")])
+_downRoomScenes = Array[PackedScene]([ExtResource("2_ynf5e")])
+_leftRoomScenes = Array[PackedScene]([ExtResource("2_ynf5e")])
+_rightRoomScenes = Array[PackedScene]([ExtResource("2_ynf5e")])
+_depthLimit = 1

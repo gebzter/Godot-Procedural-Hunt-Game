@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://c1p06uvtnw8qa"]
+
+[ext_resource type="Script" uid="uid://b3fre6nlpxl8g" path="res://Scripts/Room.cs" id="1_lsht4"]
+[ext_resource type="Texture2D" uid="uid://baa5m4lo3ol40" path="res://Sprites/Hunter_Game_Tileset.png" id="1_mbine"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lsht4"]
+texture = ExtResource("1_mbine")
+margins = Vector2i(1, 1)
+separation = Vector2i(2, 2)
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+3:1/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+5:0/0 = 0
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+2:1/0 = 0
+1:1/0 = 0
+0:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_fr46g"]
+sources/0 = SubResource("TileSetAtlasSource_lsht4")
+
+[node name="Room" type="Node2D"]
+script = ExtResource("1_lsht4")
+
+[node name="TerrainTileMapLayer" type="TileMapLayer" parent="."]
+tile_set = SubResource("TileSet_fr46g")
+occlusion_enabled = false

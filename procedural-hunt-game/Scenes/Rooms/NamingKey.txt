@@ -1,0 +1,5 @@
+D = Dead-end (1 exit)
+S = Straight corridor (2 exits)
+L = L-shaped corridor (2 exits)
+T = 3-way T-junction (3 exits)
+C = 4-way crossroads (4 exits)
