@@ -1,47 +1,98 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 //class to hold data for each room node.
 
 public partial class Room : Node2D
 {
+	//references
+	[Export] private TileMapLayer _tileMapLayer;
+
+
+
 	[Export] private bool _hasExitTop, _hasExitBottom, _hasExitLeft, _hasExitRight;
+	
+	[Export] private String _name; //name of room type.
+	[Export] private int _tileSize; //width of each individual tile.
 
-	[Export] private String _name;
 
 
-	//accessors/mutators.
-	public bool HasExitTop()
+	private Dictionary<Vector2I, TileData> _floorCells = new Dictionary<Vector2I, TileData>(); //non-solid floor cells that can be walked on.
+	public Dictionary<Vector2I, TileData> FloorCells
 	{
-		return _hasExitTop;
-
-	}	
-	public bool HasExitBottom()
-	{
-		return _hasExitBottom;
-	}
-	public bool HasExitLeft()
-	{
-		return _hasExitLeft;
+		get { return _floorCells; }
+		set { _floorCells = value; }
 	}
 
-	public bool HasExitRight()
+    public event Action<Vector2> RoomInitialisedEvent; //event for notifying when the room is completely initialised. Useful for coordinating timing.
+
+    public void RoomInitialised() //function used whenever action is fired.
+    {
+        if (RoomInitialisedEvent != null) //checks that there are methods subscribed to event.
+        {
+            RoomInitialisedEvent(Position); //fires event.
+        }
+    }
+
+
+
+	public override void _Ready()
 	{
-		return _hasExitRight;
+		foreach (Vector2I cellCoord in _tileMapLayer.GetUsedCells())
+		{
+			TileData tile = _tileMapLayer.GetCellTileData(cellCoord);
+
+			TerrainType cusData =  (TerrainType) (int) tile.GetCustomData("Terrain");
+
+			if (cusData == TerrainType.Floor)
+			{
+				FloorCells.Add(new Vector2I(cellCoord.X * _tileSize, cellCoord.Y * _tileSize), tile);
+			}
+		}
+
+		RoomInitialised();
 	}
 
-	public Vector2 GetRoomPosition()
+
+	//accessor
+	public bool HasExit(ExitDirection direction)
 	{
-		return Position;
+		bool hasExit = false;
+
+		switch (direction)
+		{
+			case ExitDirection.Up:
+				hasExit = _hasExitTop;
+				break;
+			case ExitDirection.Down:
+				hasExit = _hasExitBottom;
+				break;
+			case ExitDirection.Left:
+				hasExit = _hasExitLeft;
+				break;
+			case ExitDirection.Right:
+				hasExit = _hasExitRight;
+				break;
+		}
+
+		return hasExit;
 	}
 
-	public void SetRoomPosition(Vector2 position)
+	//enums
+	public enum TerrainType
 	{
-		this.Position = position;
+		Wall = 0,
+		Floor = 1
 	}
 
-	public String GetName()
+	public enum ExitDirection //makes HasExit() function more readable.
 	{
-		return _name;
+		Up = 0,
+		Down = 1,
+		Left = 2,
+		Right = 3
 	}
 }

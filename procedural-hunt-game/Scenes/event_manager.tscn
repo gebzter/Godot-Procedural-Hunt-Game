@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://d03kxruwwwfvr"]
+
+[node name="EventManager" type="Node2D"]

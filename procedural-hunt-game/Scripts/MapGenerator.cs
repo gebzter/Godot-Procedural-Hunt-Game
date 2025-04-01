@@ -1,32 +1,99 @@
 using Godot;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Reflection.Metadata;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 //node that procedurally generates layout of map.
 
 public partial class MapGenerator : Node2D
 {
-	//packed scenes that can be used to instantiate rooms.
-	[Export] private PackedScene[] _rooms;
+	//references
+	[Export] private PackedScene[] _rooms; //packed scenes that can be used to instantiate rooms.
 	private PackedScene[] _downExitRooms, _upExitRooms, _rightExitRooms, _leftExitRooms;
 
-	//potential scenes the root room could use.
-	[Export] private PackedScene[] _rootRooms;
+	[Export] private PackedScene[] _rootRooms; //potential scenes the root room could use.
 
-	//max depth of each room generation branch.
-	[Export] private int _depthLimit;
+	[Export] private PackedScene _testWidget; //GUI widget to mark A* nodes.
 
-	//size of each square in the map grid.
-	[Export] private int squareSize = 256;
+
+
+	[Export] private int _depthLimit; //max depth of each room generation branch.
+
+	[Export] private int _roomSize = 256; //size of each square in the map grid.
+
+	[Export] private int tileSize = 16; //size of each individual tile.
 
 	//collection of instantiated rooms.
-	private Dictionary<Godot.Vector2, Node> instantiatedRooms = new Dictionary<Godot.Vector2, Node>();
+	private Dictionary<Godot.Vector2, Node> _instantiatedRooms = new Dictionary<Godot.Vector2, Node>();
+	public Dictionary<Godot.Vector2, Node> InstantiatedRooms
+	{
+		get { return _instantiatedRooms; }
+		set { _instantiatedRooms = value; }
+	}
 
-    public override void _Ready()
-    {
+	//dictionary of instantiated rooms that have not yet been fully loaded in/initialised.
+	//will pause execution until dictionary is empty.
+	private Dictionary<Godot.Vector2, Room> _pendingRoomInstances = new Dictionary<Godot.Vector2, Room>();
+
+	private AStar2D _aStar = new AStar2D();
+	public AStar2D AStar
+	{
+		get { return _aStar; }
+		set { _aStar = value; }
+	}
+
+	//dictionary storing all position/ID pairs of A* points.
+	private Dictionary<Godot.Vector2, int> _points = new Dictionary<Godot.Vector2, int>();
+	public Dictionary<Godot.Vector2, int> Points
+	{
+		get { return _points; }
+		set { _points = value; }
+	}
+
+	public async Task GenerateMap()
+	{
+		SortRooms();
+
+		//randomly selects first room.
+		Node2D rootRoom;
+
+		Random random = new Random();
+
+		int randomIndex = random.Next(0, _rootRooms.Length);
+		rootRoom = _rootRooms[randomIndex].Instantiate<Node2D>();
+		_pendingRoomInstances.Add(rootRoom.Position, (Room) rootRoom);
+
+		rootRoom.Name = "RootRoom";
+
+		//must be cast first to use event.
+		Room room = (Room) rootRoom;
+		room.RoomInitialisedEvent += OnRoomInitialised; //subscribes to event.
+
+		//adds root room as a child to MapGenerator node.
+		_instantiatedRooms.Add(new Godot.Vector2(0, 0), rootRoom);
+		AddChild(rootRoom);
+		
+		//begins recursive calls.
+		GenerateRoom(rootRoom as Room, _depthLimit);
+
+		GD.Print("Room Generation Finished");
+
+		//waits until all rooms are finished loading.
+		while (_pendingRoomInstances.Count > 0)
+		{
+			await Task.Delay(1);
+		}
+
+		InitialisePoints();
+	}
+
+	public void SortRooms()
+	{
 		//sorts rooms into respective arrays.
 		_upExitRooms = new PackedScene[_rooms.Length];
 		_downExitRooms = new PackedScene[_rooms.Length];
@@ -37,52 +104,27 @@ public partial class MapGenerator : Node2D
 		{
 			Room room = _rooms[i].Instantiate() as Room;
 
-			if (room.HasExitTop())
+			if (room.HasExit(Room.ExitDirection.Up))
 			{
 				_upExitRooms[i] = _rooms[i];
 			}
-			if (room.HasExitBottom())
+			if (room.HasExit(Room.ExitDirection.Down))
 			{
 				_downExitRooms[i] = _rooms[i];
 			}
-			if (room.HasExitRight())
+			if (room.HasExit(Room.ExitDirection.Right))
 			{
 				_rightExitRooms[i] = _rooms[i];
 			}
-			if (room.HasExitLeft())
+			if (room.HasExit(Room.ExitDirection.Left))
 			{
 				_leftExitRooms[i] = _rooms[i];
 			}
 
 			room.QueueFree();
 		}
-
-		GenerateMap();
-    }
-
-
-	public void GenerateMap()
-	{
-		//randomly selects first room.
-		Node2D rootRoom;
-
-		Random random = new Random();
-
-		int randomIndex = random.Next(0, _rootRooms.Length);
-		rootRoom = _rootRooms[randomIndex].Instantiate<Node2D>();
-
-		rootRoom.Name = "RootRoom";
-
-		//adds root room as a child to MapGenerator node.
-		AddChild(rootRoom);
-
-		instantiatedRooms.Add(new Godot.Vector2(0, 0), rootRoom);
-
-		//begins recursive calls.
-		GenerateRoom(rootRoom as Room, _depthLimit);
-
-		GD.Print("Room Generation Finished");
 	}
+
 
 	//recursively generates rooms until depth limit reached or no room possible to generate.
 	private void GenerateRoom(Room previousRoom, int remainingDepth)
@@ -103,15 +145,15 @@ public partial class MapGenerator : Node2D
 			Random random = new Random();
 
 			//first find what exits are required/forbidden for a given room position.
-			Godot.Vector2 newPosition = previousRoom.Position + new Godot.Vector2(squareSize * offset.X, squareSize * offset.Y);
+			Godot.Vector2 newPosition = previousRoom.Position + new Godot.Vector2(_roomSize * offset.X, _roomSize * offset.Y);
 			PackedScene[][] requiredRooms = new PackedScene[4][];
 			PackedScene[][] forbiddenRooms = new PackedScene[4][];
 
 			//room present at top.
-			Godot.Vector2 testPosition = newPosition + new Godot.Vector2(0, -squareSize);
-			if (instantiatedRooms.ContainsKey(testPosition))
+			Godot.Vector2 testPosition = newPosition + new Godot.Vector2(0, -_roomSize);
+			if (_instantiatedRooms.ContainsKey(testPosition))
 			{
-				if (((Room) instantiatedRooms[testPosition]).HasExitBottom())
+				if (((Room) _instantiatedRooms[testPosition]).HasExit(Room.ExitDirection.Down))
 				{
 					requiredRooms[0] = _upExitRooms;
 				}
@@ -126,10 +168,10 @@ public partial class MapGenerator : Node2D
 			}
 
 			//room present at bottom.
-			testPosition = newPosition + new Godot.Vector2(0, squareSize);
-			if (instantiatedRooms.ContainsKey(testPosition))
+			testPosition = newPosition + new Godot.Vector2(0, _roomSize);
+			if (_instantiatedRooms.ContainsKey(testPosition))
 			{
-				if (((Room) instantiatedRooms[testPosition]).HasExitTop())
+				if (((Room) _instantiatedRooms[testPosition]).HasExit(Room.ExitDirection.Up))
 				{
 					requiredRooms[1] = _downExitRooms;
 				}
@@ -144,10 +186,10 @@ public partial class MapGenerator : Node2D
 			}
 
 			//room present at right
-			testPosition = newPosition + new Godot.Vector2(squareSize, 0);
-			if (instantiatedRooms.ContainsKey(testPosition))
+			testPosition = newPosition + new Godot.Vector2(_roomSize, 0);
+			if (_instantiatedRooms.ContainsKey(testPosition))
 			{
-				if (((Room) instantiatedRooms[testPosition]).HasExitLeft())
+				if (((Room) _instantiatedRooms[testPosition]).HasExit(Room.ExitDirection.Left))
 				{
 					requiredRooms[2] = _rightExitRooms;
 				}
@@ -162,10 +204,10 @@ public partial class MapGenerator : Node2D
 			}
 
 			//room present at left.
-			testPosition = newPosition + new Godot.Vector2(-squareSize, 0);
-			if (instantiatedRooms.ContainsKey(testPosition))
+			testPosition = newPosition + new Godot.Vector2(-_roomSize, 0);
+			if (_instantiatedRooms.ContainsKey(testPosition))
 			{
-				if (((Room) instantiatedRooms[testPosition]).HasExitRight())
+				if (((Room) _instantiatedRooms[testPosition]).HasExit(Room.ExitDirection.Right))
 				{
 					requiredRooms[3] = _leftExitRooms;
 				}
@@ -239,7 +281,7 @@ public partial class MapGenerator : Node2D
 			newRoom = packedRoom.Instantiate<Node2D>();
 
 			//room already exists in that position.
-			if (instantiatedRooms.ContainsKey(newPosition))
+			if (_instantiatedRooms.ContainsKey(newPosition))
 			{
 				newRoom.QueueFree();
 
@@ -248,32 +290,146 @@ public partial class MapGenerator : Node2D
 			else
 			{
 				newRoom.Position = newPosition;
-				instantiatedRooms.Add(newRoom.Position, newRoom);
+				_instantiatedRooms.Add(newRoom.Position, newRoom);
+				_pendingRoomInstances.Add(newRoom.Position, (Room) newRoom);
 				AddChild(newRoom); //adds new room as child to MapGenerator node.
+
+				Room room = (Room) newRoom; //casts to room script.
+				room.RoomInitialisedEvent += OnRoomInitialised; //subscribes to event.
+
 				GenerateRoom(newRoom as Room, remainingDepth);
 
 				newRoom.Name = previousRoom.Name + " => " + newPosition;
 			}
 		}
 
-		if (previousRoom.HasExitTop())
+		if (previousRoom.HasExit(Room.ExitDirection.Up))
 		{
 			GenerateRoomDetails(_downExitRooms, new Godot.Vector2(0, -1));
 		}
 		
-		if (previousRoom.HasExitBottom())
+		if (previousRoom.HasExit(Room.ExitDirection.Down))
 		{
 			GenerateRoomDetails(_upExitRooms, new Godot.Vector2(0, 1));
 		}
 		
-		if (previousRoom.HasExitRight())
+		if (previousRoom.HasExit(Room.ExitDirection.Right))
 		{
 			GenerateRoomDetails(_leftExitRooms, new Godot.Vector2(1, 0));
 		}
 		
-		if (previousRoom.HasExitLeft())
+		if (previousRoom.HasExit(Room.ExitDirection.Left))
 		{
 			GenerateRoomDetails(_rightExitRooms, new Godot.Vector2(-1, 0));
 		}
+	}
+
+
+	//adds A* points to A* object and connects them together.
+    public void InitialisePoints()
+    {
+		//adds points to A* object.
+        foreach (var item in InstantiatedRooms)
+		{
+            Godot.Vector2 roomCoord = item.Key; //global room coordinate.
+            Godot.Vector2 finalCoord; //sum of global room coordinate and local tile coordinate.
+            Room room = (Room) item.Value;
+
+			foreach (var tile in room.FloorCells)
+			{
+                Godot.Vector2 tileCoord = tile.Key; //local tile coordinate.
+				finalCoord = roomCoord + tileCoord;
+				
+				//generates id from global position in the form XY.
+				//"1" must be added inbetween to prevent errors with palindromes. E.g. "8" + "88" == "88" + "8".
+				int id = Int32.Parse(Mathf.Abs(finalCoord.X).ToString() + "1" + Mathf.Abs(finalCoord.Y).ToString());
+
+				//IDs with negative x and y values get extra 1 digits in certain places.
+				if (finalCoord.X < 0)
+				{
+					id = id + 1000000;
+				}
+
+				if (finalCoord.Y < 0)
+				{
+					id = id + 100000;
+				}
+
+				if (AStar.HasPoint(id))
+				{
+					Godot.Vector2 oldCoords = AStar.GetPointPosition(id);
+
+					GD.Print("-----------------");
+					GD.Print("Already contains point: ID: " + id + " X:" + finalCoord.X + " Y:" + finalCoord.Y);
+					GD.Print("Current value: " + oldCoords);
+					GD.Print("-----------------");
+				}
+				else
+				{
+					//GD.Print("No overwriting error");
+				}
+
+                AStar.AddPoint(id, finalCoord);
+				Points.Add(finalCoord, id);
+			}
+		}
+
+		GD.Print("Points generated");
+
+		//connects points together.
+		foreach (int id in AStar.GetPointIds())
+		{
+			Godot.Vector2 pointCoord = AStar.GetPointPosition(id);
+			
+			//point being checked that is adjacent to the current point.
+			Godot.Vector2 checkPointCoord;
+			int checkPointId;
+
+			//iterates over every adjacent coordinate.
+			for (int x = -1; x <= 1; x++)
+			{
+				for (int y = -1; y <= 1; y++)
+				{
+					if (Mathf.Abs(x) == Mathf.Abs(y))
+					{
+						continue;
+					}
+
+					checkPointCoord = pointCoord + new Godot.Vector2(x * tileSize, y * tileSize);
+
+					if (Points.ContainsKey(checkPointCoord) && checkPointCoord != pointCoord)
+					{
+						checkPointId = Points[checkPointCoord];
+					}
+					else
+					{
+						continue;
+					}
+
+					if (AStar.HasPoint(checkPointId))
+					{
+						AStar.ConnectPoints(id, checkPointId, true);
+					}
+				}
+			}
+		}
+
+		GD.Print("A* points initialised");
+
+		//testing.
+		foreach (int id in Points.Values)
+		{
+			//Node2D node = _testWidget.Instantiate<Node2D>();
+			//GetParent().AddChild(node);
+			//node.Position = _aStar.GetPointPosition(id);
+		}
+    }
+
+	//event methods
+
+	//called when RoomInitialisedEvent is fired.
+	public void OnRoomInitialised(Godot.Vector2 roomPos)
+	{
+		_pendingRoomInstances.Remove(roomPos);
 	}
 }
