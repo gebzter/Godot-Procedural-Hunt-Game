@@ -20,6 +20,6 @@ public partial class GameManager : Node2D
 		//room generation can be out of sync so await needed to maintain program flow.
 		await _mapGenerator.GenerateMap();
 
-		_enemy.HuntPlayer();
+		_enemy.StartEnemyBehaviour();
 	}
 }

@@ -19,7 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://bmnulcb44i6jh" path="res://Scenes/Rooms/Straight Rooms/roomS01.tscn" id="15_h1bgf"]
 [ext_resource type="PackedScene" uid="uid://c4gx71nta86eb" path="res://Scenes/Rooms/Crossroad Rooms/roomC02.tscn" id="17_h1bgf"]
 [ext_resource type="PackedScene" uid="uid://5u1y0g2gogoq" path="res://Scenes/player.tscn" id="18_b3802"]
-[ext_resource type="PackedScene" uid="uid://bf5fktdo5m6gx" path="res://Scenes/enemy.tscn" id="20_pdsj5"]
+[ext_resource type="PackedScene" uid="uid://bf5fktdo5m6gx" path="res://Scenes/Enemies/enemy.tscn" id="21_ee4r6"]
 [ext_resource type="PackedScene" uid="uid://domgji2hd7xi1" path="res://Scenes/test.tscn" id="21_pdsj5"]
 
 [node name="Game" type="Node2D"]
@@ -54,8 +54,6 @@ process_callback = 0
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 
-[node name="Enemy" parent="." node_paths=PackedStringArray("mapGenerator", "_player") instance=ExtResource("20_pdsj5")]
-position = Vector2(16, 0)
+[node name="Enemy" parent="." node_paths=PackedStringArray("mapGenerator", "_player") instance=ExtResource("21_ee4r6")]
 mapGenerator = NodePath("../MapGenerator")
 _player = NodePath("../Player")
-_interpolationWeight = 0.05

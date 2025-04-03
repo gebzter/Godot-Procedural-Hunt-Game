@@ -4,10 +4,21 @@
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_1f0kj"]
 
-[node name="Enemy" type="Node2D"]
+[node name="Enemy" type="Node2D" node_paths=PackedStringArray("_rayCast")]
 script = ExtResource("1_hghv2")
+_rayCast = NodePath("RayCast2D")
+_wanderInterpolationWeight = 0.05
+_huntInterpolationWeight = 0.07
+_chaseInterpolationWeight = 0.085
+_passiveDetectionRadius = 128.0
+_pathfindFalloff = 16.0
+_minWanderDuration = 5
+_maxWanderDuration = 30
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = 0.785398
 scale = Vector2(8, 8)
 texture = SubResource("PlaceholderTexture2D_1f0kj")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+collision_mask = 3

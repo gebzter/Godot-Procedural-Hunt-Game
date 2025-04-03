@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=4 uid="uid://db415onfwqjd8"]
 
-[ext_resource type="PackedScene" uid="uid://c1p06uvtnw8qa" path="res://Scenes/room.tscn" id="1_kvi4g"]
+[ext_resource type="PackedScene" uid="uid://c1p06uvtnw8qa" path="res://Scenes/Rooms/room.tscn" id="1_kvi4g"]
 
 [node name="Room" instance=ExtResource("1_kvi4g")]
 _hasExitBottom = true

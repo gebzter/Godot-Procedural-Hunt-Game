@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=4 uid="uid://c6oaqbwob0nr0"]
 
-[ext_resource type="PackedScene" uid="uid://c1p06uvtnw8qa" path="res://Scenes/room.tscn" id="1_5j3qj"]
+[ext_resource type="PackedScene" uid="uid://c1p06uvtnw8qa" path="res://Scenes/Rooms/room.tscn" id="1_5j3qj"]
 
 [node name="Room" instance=ExtResource("1_5j3qj")]
 _roomSize = Vector2(1, 1)
