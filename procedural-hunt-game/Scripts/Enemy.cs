@@ -140,8 +140,6 @@ public partial class Enemy : Node2D
 			_behaviour = EnemyBehaviour.Wander;
 		}
 
-		GD.Print(_behaviour);
-
 		switch (_behaviour)
 		{
 			case (EnemyBehaviour.Wander):
@@ -181,6 +179,15 @@ public partial class Enemy : Node2D
 		}
 
 		_canSeePlayer = false;
+	}
+
+	//called when Area2D enters this Node's Area2D.
+	public void OnAreaEntered(Area2D area)
+	{
+		//enemy uses tracks laid down by player to follow.
+		_lastPlayerPos = _player.GlobalPosition;
+
+		area.GetParent().QueueFree();
 	}
 
 	//enums.

@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://5u1y0g2gogoq"]
+[gd_scene load_steps=5 format=3 uid="uid://5u1y0g2gogoq"]
 
 [ext_resource type="Script" uid="uid://dfmsrqigdoqxe" path="res://Scripts/Player.cs" id="1_v0iea"]
+[ext_resource type="PackedScene" uid="uid://cfljducpcdnuv" path="res://Scenes/player_tracks.tscn" id="2_cvnsp"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_f60y1"]
 
@@ -11,8 +12,10 @@ radius = 4.0
 collision_mask = 2
 motion_mode = 1
 script = ExtResource("1_v0iea")
+_tracks = ExtResource("2_cvnsp")
 _speed = 125.0
 _deceleration = 75.0
+_tracksInterval = 4.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(8, 8)

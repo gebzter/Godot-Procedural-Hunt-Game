@@ -43,8 +43,9 @@ scale = Vector2(20, 20)
 color = Color(0.129412, 0.121569, 0.0941176, 1)
 polygon = PackedVector2Array(-119.75, -72.15, 121.25, -72.45, 122.45, 71.3, -120.65, 72.2)
 
-[node name="Player" parent="." instance=ExtResource("18_b3802")]
+[node name="Player" parent="." node_paths=PackedStringArray("_gameNode") instance=ExtResource("18_b3802")]
 motion_mode = 0
+_gameNode = NodePath("..")
 _speed = 100.0
 _deceleration = 20.0
 

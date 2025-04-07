@@ -1,8 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://bf5fktdo5m6gx"]
+[gd_scene load_steps=6 format=3 uid="uid://bf5fktdo5m6gx"]
 
 [ext_resource type="Script" uid="uid://d3fguipxb3ov6" path="res://Scripts/Enemy.cs" id="1_hghv2"]
+[ext_resource type="PackedScene" uid="uid://bmvddx0kbdm4w" path="res://Scenes/Enemies/short_tentacle.tscn" id="2_jcvw6"]
+[ext_resource type="PackedScene" uid="uid://8uoviadpufy6" path="res://Scenes/Enemies/long_tentacle.tscn" id="3_x1rqp"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_1f0kj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_613su"]
 
 [node name="Enemy" type="Node2D" node_paths=PackedStringArray("_rayCast")]
 script = ExtResource("1_hghv2")
@@ -16,9 +20,42 @@ _minWanderDuration = 5
 _maxWanderDuration = 30
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 1)
 rotation = 0.785398
-scale = Vector2(8, 8)
+scale = Vector2(12, 12)
 texture = SubResource("PlaceholderTexture2D_1f0kj")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 collision_mask = 3
+
+[node name="TracksDetector" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TracksDetector"]
+shape = SubResource("CircleShape2D_613su")
+
+[node name="Tentacles" type="Node2D" parent="."]
+
+[node name="ShortTentacle" parent="Tentacles" instance=ExtResource("2_jcvw6")]
+_forceDirection = Vector2(1, 0)
+
+[node name="ShortTentacle2" parent="Tentacles" instance=ExtResource("2_jcvw6")]
+rotation = 1.5708
+_forceDirection = Vector2(0, 1)
+
+[node name="ShortTentacle3" parent="Tentacles" instance=ExtResource("2_jcvw6")]
+rotation = -3.14159
+_forceDirection = Vector2(-1, 0)
+
+[node name="ShortTentacle4" parent="Tentacles" instance=ExtResource("2_jcvw6")]
+rotation = -1.5708
+_forceDirection = Vector2(0, -1)
+
+[node name="LongTentacle" parent="Tentacles" instance=ExtResource("3_x1rqp")]
+_forceDirection = Vector2(1, 0)
+
+[node name="LongTentacle2" parent="Tentacles" instance=ExtResource("3_x1rqp")]
+_forceDirection = Vector2(-1, 0)
+
+[connection signal="area_entered" from="TracksDetector" to="." method="OnAreaEntered"]
