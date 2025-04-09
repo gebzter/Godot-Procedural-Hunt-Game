@@ -11,6 +11,7 @@ public partial class Tentacle : Node2D
 	//references.
 	[Export] private Node2D _tipSegment;
 	[Export] private StaticBody2D _anchor;
+	[Export] private Enemy _enemy;
 
 	[Export] private float _lungeForce, _retractForce;
 	[Export] private Vector2 _forceDirection = new Vector2(0, 0);
@@ -38,11 +39,24 @@ public partial class Tentacle : Node2D
 		{
 			await Task.Delay(random.Next(_minLungeInterval, _maxLungeInterval));
 
-			_tipRb.ApplyForce(_forceDirection.Normalized() * _lungeForce);
+			_tipRb.ApplyForce(DetermineForceDirection() * _lungeForce);
 
 			await Task.Delay(_retractInterval);
 
-			_tipRb.ApplyForce(_forceDirection.Normalized() * -_lungeForce);
+			_tipRb.ApplyForce(DetermineForceDirection() * -_lungeForce);
+		}
+	}
+
+	private Vector2 DetermineForceDirection()
+	{
+		if (_enemy.CanSeePlayer)
+		{
+			_tipRb.LinearVelocity = new Vector2(0, 0);
+			return (_enemy.Player.Position - Position).Normalized(); //towards player.
+		}
+		else
+		{
+			return _forceDirection.Normalized();
 		}
 	}
 }

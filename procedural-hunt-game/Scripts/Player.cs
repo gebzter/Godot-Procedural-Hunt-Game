@@ -50,5 +50,9 @@ public partial class Player : CharacterBody2D
 
 		Velocity = velocity;
 		MoveAndSlide();
+
+
+		Vector2 mousePos = GetGlobalMousePosition();
+		Rotation = (mousePos - GlobalPosition).Angle();
 	}
 }

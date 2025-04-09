@@ -10,6 +10,14 @@ public partial class Enemy : Node2D
 	//references.
 	[Export] private MapGenerator mapGenerator;
 	[Export] private Player _player;
+	public Player Player
+	{
+		get { return _player; }
+		set { _player = value; }
+	}
+
+	[Export] private Node2D _visuals; //basic node holding visual elements.
+
 	[Export] private RayCast2D _rayCast;
 	[Export] private float _rayCastLength = 500;
 
@@ -35,10 +43,17 @@ public partial class Enemy : Node2D
 
 	private Godot.Vector2 _lastPlayerPos = new Godot.Vector2(); //last postiion player was detected at.
 	private bool _canSeePlayer; //has line of sight to player.
+	public bool CanSeePlayer
+	{
+		get { return _canSeePlayer; }
+		set { _canSeePlayer = value; }
+	}
 
 	private double _wanderTimer = 0; //timer used for wandering.
 	[Export] private int _minWanderDuration, _maxWanderDuration;
 	private Godot.Vector2 _wanderTargetPos = new Godot.Vector2(0, 0); //random position used with wandering algorithm.
+
+	private float _moveAngle = 0; //angle from current position to next tile.
 
 	public void StartEnemyBehaviour()
 	{
@@ -81,7 +96,7 @@ public partial class Enemy : Node2D
 	//pathfinds directly to player at higher speed.
 	private void ChasePlayer()
 	{
-		Pathfind(_player.GlobalPosition, _chaseInterpolationWeight);
+		Pathfind(Player.GlobalPosition, _chaseInterpolationWeight);
 	}
 
 	private void Pathfind(Godot.Vector2 targetPos, float interpolationWeight)
@@ -111,7 +126,8 @@ public partial class Enemy : Node2D
 
 			Position = new Godot.Vector2(posX, posY);
 
-			//GD.Print(Position + ", " + nextPos);
+			_moveAngle = (nextPos - Position).Angle();
+			_visuals.Rotation = _moveAngle;
 		}
 	}
 
@@ -127,7 +143,7 @@ public partial class Enemy : Node2D
 
 		PlayerDetection();
 
-		if (_canSeePlayer == true)
+		if (CanSeePlayer == true)
 		{
 			_behaviour = EnemyBehaviour.Chase;
 		}
@@ -156,36 +172,36 @@ public partial class Enemy : Node2D
 
 	private void PlayerDetection()
 	{
-		if (GlobalPosition.DistanceTo(_player.GlobalPosition) <= _passiveDetectionRadius)
+		if (GlobalPosition.DistanceTo(Player.GlobalPosition) <= _passiveDetectionRadius)
 		{
-			_lastPlayerPos = _player.GlobalPosition;
+			_lastPlayerPos = Player.GlobalPosition;
 		}
 
-		_rayCast.TargetPosition = (_player.GlobalPosition - _rayCast.GlobalPosition).Normalized() * _rayCastLength;
+		_rayCast.TargetPosition = (Player.GlobalPosition - _rayCast.GlobalPosition).Normalized() * _rayCastLength;
 		_rayCast.ForceRaycastUpdate();
 
 		GodotObject collision = _rayCast.GetCollider();
 
 		if (collision == null)
 		{
-			_canSeePlayer = false;
+			CanSeePlayer = false;
 			return;
 		}
-		else if (collision == _player)
+		else if (collision == Player)
 		{
-			_canSeePlayer = true;
-			_lastPlayerPos = _player.GlobalPosition;
+			CanSeePlayer = true;
+			_lastPlayerPos = Player.GlobalPosition;
 			return;
 		}
 
-		_canSeePlayer = false;
+		CanSeePlayer = false;
 	}
 
 	//called when Area2D enters this Node's Area2D.
 	public void OnAreaEntered(Area2D area)
 	{
 		//enemy uses tracks laid down by player to follow.
-		_lastPlayerPos = _player.GlobalPosition;
+		_lastPlayerPos = Player.GlobalPosition;
 
 		area.GetParent().QueueFree();
 	}

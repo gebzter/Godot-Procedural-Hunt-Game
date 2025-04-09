@@ -9,7 +9,7 @@
 script = ExtResource("1_3tj0s")
 _tipSegment = NodePath("Anchor/Node/Segments/TentacleSegment10")
 _anchor = NodePath("Anchor")
-_lungeForce = 20000.0
+_lungeForce = 25000.0
 _retractForce = 600.0
 _maxLungeInterval = 3000
 _minLungeInterval = 1500

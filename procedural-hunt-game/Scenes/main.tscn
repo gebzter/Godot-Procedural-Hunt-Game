@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://civyoxlhsyxtj"]
+[gd_scene load_steps=24 format=3 uid="uid://civyoxlhsyxtj"]
 
 [ext_resource type="PackedScene" uid="uid://mvplw0r0hn27" path="res://Scenes/game_manager.tscn" id="1_hibaj"]
 [ext_resource type="Script" uid="uid://ba7tp2tt7mcjw" path="res://Scripts/MapGenerator.cs" id="1_jjgbg"]
@@ -20,7 +20,11 @@
 [ext_resource type="PackedScene" uid="uid://c4gx71nta86eb" path="res://Scenes/Rooms/Crossroad Rooms/roomC02.tscn" id="17_h1bgf"]
 [ext_resource type="PackedScene" uid="uid://5u1y0g2gogoq" path="res://Scenes/player.tscn" id="18_b3802"]
 [ext_resource type="PackedScene" uid="uid://bf5fktdo5m6gx" path="res://Scenes/Enemies/enemy.tscn" id="21_ee4r6"]
+[ext_resource type="Shader" uid="uid://cxee3s0xhybu5" path="res://Shaders/pixelation_shader.gdshader" id="21_gt3je"]
 [ext_resource type="PackedScene" uid="uid://domgji2hd7xi1" path="res://Scenes/test.tscn" id="21_pdsj5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3pmx8"]
+shader = ExtResource("21_gt3je")
 
 [node name="Game" type="Node2D"]
 
@@ -50,6 +54,7 @@ _speed = 100.0
 _deceleration = 20.0
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
+material = SubResource("ShaderMaterial_3pmx8")
 zoom = Vector2(3, 3)
 process_callback = 0
 position_smoothing_enabled = true
@@ -58,3 +63,6 @@ position_smoothing_speed = 10.0
 [node name="Enemy" parent="." node_paths=PackedStringArray("mapGenerator", "_player") instance=ExtResource("21_ee4r6")]
 mapGenerator = NodePath("../MapGenerator")
 _player = NodePath("../Player")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.0021571, 0.00179805, 0.00128279, 1)
