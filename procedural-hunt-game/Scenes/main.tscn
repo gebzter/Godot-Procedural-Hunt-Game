@@ -20,11 +20,30 @@
 [ext_resource type="PackedScene" uid="uid://c4gx71nta86eb" path="res://Scenes/Rooms/Crossroad Rooms/roomC02.tscn" id="17_h1bgf"]
 [ext_resource type="PackedScene" uid="uid://5u1y0g2gogoq" path="res://Scenes/player.tscn" id="18_b3802"]
 [ext_resource type="PackedScene" uid="uid://bf5fktdo5m6gx" path="res://Scenes/Enemies/enemy.tscn" id="21_ee4r6"]
-[ext_resource type="Shader" uid="uid://cxee3s0xhybu5" path="res://Shaders/pixelation_shader.gdshader" id="21_gt3je"]
 [ext_resource type="PackedScene" uid="uid://domgji2hd7xi1" path="res://Scenes/test.tscn" id="21_pdsj5"]
 
+[sub_resource type="Shader" id="Shader_pdsj5"]
+code = "shader_type canvas_item;
+
+uniform float pixelate: hint_range(2, 512, 4) = 256;
+uniform sampler2D SCREEN_TEXTURE: hint_screen_texture, filter_linear_mipmap;
+
+void fragment ()
+{
+	vec2 uv = floor(UV * pixelate) / pixelate;
+	COLOR = textureLod(SCREEN_TEXTURE, uv, 0.0);
+}
+
+// Called for every pixel for every light affecting the CanvasItem.
+// Uncomment to replace the default light processing function with this one.
+//void light() 
+//{
+//}
+"
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3pmx8"]
-shader = ExtResource("21_gt3je")
+shader = SubResource("Shader_pdsj5")
+shader_parameter/pixelate = 256.0
 
 [node name="Game" type="Node2D"]
 
@@ -40,7 +59,7 @@ _rootRooms = Array[PackedScene]([ExtResource("2_ynf5e"), ExtResource("17_h1bgf")
 _testWidget = ExtResource("21_pdsj5")
 _depthLimit = 6
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
+[node name="Background" type="Polygon2D" parent="."]
 z_index = -10
 position = Vector2(6.99999, 34)
 scale = Vector2(20, 20)
@@ -65,4 +84,4 @@ mapGenerator = NodePath("../MapGenerator")
 _player = NodePath("../Player")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color(0.0021571, 0.00179805, 0.00128279, 1)
+color = Color(0.28485, 0.28485, 0.28485, 1)

@@ -16,6 +16,7 @@ _huntInterpolationWeight = 0.07
 _chaseInterpolationWeight = 0.085
 _passiveDetectionRadius = 128.0
 _pathfindFalloff = 16.0
+_spawnRadius = 320.0
 _minWanderDuration = 5
 _maxWanderDuration = 30
 

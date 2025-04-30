@@ -326,18 +326,18 @@ public partial class MapGenerator : Node2D
 
 
 	//adds A* points to A* object and connects them together.
-    public void InitialisePoints()
-    {
+	public void InitialisePoints()
+	{
 		//adds points to A* object.
-        foreach (var item in InstantiatedRooms)
+		foreach (var item in InstantiatedRooms)
 		{
-            Godot.Vector2 roomCoord = item.Key; //global room coordinate.
-            Godot.Vector2 finalCoord; //sum of global room coordinate and local tile coordinate.
-            Room room = (Room) item.Value;
+			Godot.Vector2 roomCoord = item.Key; //global room coordinate.
+			Godot.Vector2 finalCoord; //sum of global room coordinate and local tile coordinate.
+			Room room = (Room) item.Value;
 
 			foreach (var tile in room.FloorCells)
 			{
-                Godot.Vector2 tileCoord = tile.Key; //local tile coordinate.
+				Godot.Vector2 tileCoord = tile.Key; //local tile coordinate.
 				finalCoord = roomCoord + tileCoord;
 				
 				//generates id from global position in the form XY.
@@ -369,7 +369,7 @@ public partial class MapGenerator : Node2D
 					//GD.Print("No overwriting error");
 				}
 
-                AStar.AddPoint(id, finalCoord);
+				AStar.AddPoint(id, finalCoord);
 				Points.Add(finalCoord, id);
 			}
 		}
@@ -423,7 +423,7 @@ public partial class MapGenerator : Node2D
 			//GetParent().AddChild(node);
 			//node.Position = _aStar.GetPointPosition(id);
 		}
-    }
+	}
 
 	//event methods
 

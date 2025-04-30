@@ -35,6 +35,8 @@ public partial class Enemy : Node2D
 
 	[Export] private float _pathfindFalloff = 8f; //range at which the enemy stops pathfinding to a specific point and changes its behaviour.
 
+	[Export] private float _spawnRadius; //distance from (0, 0) that enemy is forbidden from spawning at.
+
 	private bool _beginEnemy = false;
 	Godot.Vector2 currentPos;
 	Godot.Vector2 playerPos;
@@ -60,6 +62,15 @@ public partial class Enemy : Node2D
 		GD.Print("Enemy behaviour start");
 		_aStar = mapGenerator.AStar;
 		_points = mapGenerator.Points;
+
+		Position = GetRandomPosition(new Random()); //randomly positions enemy at a minimum distance from the starting location.
+
+		while (Position.Length() < _spawnRadius)
+		{
+			Position = GetRandomPosition(new Random()); //randomly positions enemy at a minimum distance from the starting location.
+			GD.Print("Repositioning Enemy");
+		}
+
 		_beginEnemy = true;
 	}
 
