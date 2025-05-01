@@ -47,9 +47,10 @@ shader_parameter/pixelate = 256.0
 
 [node name="Game" type="Node2D"]
 
-[node name="GameManager" parent="." node_paths=PackedStringArray("_mapGenerator", "_enemy") instance=ExtResource("1_hibaj")]
+[node name="GameManager" parent="." node_paths=PackedStringArray("_mapGenerator", "_player") instance=ExtResource("1_hibaj")]
 _mapGenerator = NodePath("../MapGenerator")
-_enemy = NodePath("../Enemy")
+_enemyPackedScene = ExtResource("21_ee4r6")
+_player = NodePath("../Player")
 
 [node name="MapGenerator" type="Node2D" parent="."]
 position = Vector2(-8, -8)
@@ -79,9 +80,5 @@ process_callback = 0
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 
-[node name="Enemy" parent="." node_paths=PackedStringArray("mapGenerator", "_player") instance=ExtResource("21_ee4r6")]
-mapGenerator = NodePath("../MapGenerator")
-_player = NodePath("../Player")
-
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color(0.28485, 0.28485, 0.28485, 1)
+color = Color(0.525101, 0.525101, 0.525101, 1)

@@ -29,5 +29,4 @@ scale = Vector2(0.078125, 0.03125)
 texture = ExtResource("2_b4nxl")
 
 [node name="PinJoint2D" type="PinJoint2D" parent="."]
-visible = false
 node_b = NodePath("../RigidBody2D")

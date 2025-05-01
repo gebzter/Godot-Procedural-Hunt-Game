@@ -7,15 +7,22 @@ using System.Numerics;
 
 public partial class Enemy : Node2D
 {
-	//references.
-	[Export] private MapGenerator mapGenerator;
-	[Export] private Player _player;
+	//reference attributes assigned manually upon instantiation.
+	private MapGenerator _mapGenerator;
+	public MapGenerator MapGenerator
+	{
+		get { return _mapGenerator; }
+		set { _mapGenerator = value; }
+	}
+
+	private Player _player;
 	public Player Player
 	{
 		get { return _player; }
 		set { _player = value; }
 	}
 
+	//references.
 	[Export] private Node2D _visuals; //basic node holding visual elements.
 
 	[Export] private RayCast2D _rayCast;
@@ -23,6 +30,12 @@ public partial class Enemy : Node2D
 
 
 	private AStar2D _aStar;
+	public AStar2D AStar
+	{
+		get { return _aStar; }
+		set {_aStar = value; }
+	}
+
 	private Dictionary<Godot.Vector2, int> _points;
 
 
@@ -36,6 +49,11 @@ public partial class Enemy : Node2D
 	[Export] private float _pathfindFalloff = 8f; //range at which the enemy stops pathfinding to a specific point and changes its behaviour.
 
 	[Export] private float _spawnRadius; //distance from (0, 0) that enemy is forbidden from spawning at.
+	public float SpawnRadius
+	{
+		get {return _spawnRadius;}
+		set {_spawnRadius = value;}
+	}
 
 	private bool _beginEnemy = false;
 	Godot.Vector2 currentPos;
@@ -60,18 +78,20 @@ public partial class Enemy : Node2D
 	public void StartEnemyBehaviour()
 	{
 		GD.Print("Enemy behaviour start");
-		_aStar = mapGenerator.AStar;
-		_points = mapGenerator.Points;
-
-		Position = GetRandomPosition(new Random()); //randomly positions enemy at a minimum distance from the starting location.
-
-		while (Position.Length() < _spawnRadius)
-		{
-			Position = GetRandomPosition(new Random()); //randomly positions enemy at a minimum distance from the starting location.
-			GD.Print("Repositioning Enemy");
-		}
+		_points = MapGenerator.Points;
 
 		_beginEnemy = true;
+	}
+
+	public Godot.Vector2 GetRandomPosition(Random random)
+	{
+		long[] points = AStar.GetPointIds();
+
+		int randomIndex = random.Next(0, points.Length);
+
+		Godot.Vector2 randomPos = AStar.GetPointPosition(points[randomIndex]);
+
+		return randomPos;
 	}
 
 	//periodically pathfinds to random tile.
@@ -85,17 +105,6 @@ public partial class Enemy : Node2D
 		}
 
 		Pathfind(_wanderTargetPos, _wanderInterpolationWeight);
-	}
-
-	private Godot.Vector2 GetRandomPosition(Random random)
-	{
-		long[] points = _aStar.GetPointIds();
-
-		int randomIndex = random.Next(0, points.Length);
-
-		Godot.Vector2 randomPos = _aStar.GetPointPosition(points[randomIndex]);
-
-		return randomPos;
 	}
 
 	//pathfinds to last position player was detected at.
@@ -113,7 +122,7 @@ public partial class Enemy : Node2D
 	private void Pathfind(Godot.Vector2 targetPos, float interpolationWeight)
 	{
 		//updated position used to determine if next position to move to needs updating.
-		Godot.Vector2 updatedPos = _aStar.GetPointPosition(_aStar.GetClosestPoint(Position));
+		Godot.Vector2 updatedPos = AStar.GetPointPosition(AStar.GetClosestPoint(Position));
 
 		//only updates currentPos if it has changed point.
 		if (currentPos != updatedPos)
@@ -121,9 +130,9 @@ public partial class Enemy : Node2D
 			currentPos = updatedPos;
 		}
 		
-		playerPos = _aStar.GetPointPosition(_aStar.GetClosestPoint(targetPos));
+		playerPos = AStar.GetPointPosition(AStar.GetClosestPoint(targetPos));
 
-		Godot.Vector2[] path = _aStar.GetPointPath(_points[currentPos], _points[playerPos], true);
+		Godot.Vector2[] path = AStar.GetPointPath(_points[currentPos], _points[playerPos], true);
 
 		Godot.Vector2 nextPos = new Godot.Vector2();
 
@@ -179,6 +188,8 @@ public partial class Enemy : Node2D
 				ChasePlayer();
 				break;
 		}
+
+		
     }
 
 	private void PlayerDetection()
@@ -211,6 +222,11 @@ public partial class Enemy : Node2D
 	//called when Area2D enters this Node's Area2D.
 	public void OnAreaEntered(Area2D area)
 	{
+		if (Player == null) //negates race condition when enemy is instantiated.
+		{
+			return;
+		}
+
 		//enemy uses tracks laid down by player to follow.
 		_lastPlayerPos = Player.GlobalPosition;
 

@@ -5,10 +5,11 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_d5u1c"]
 
-[node name="ShortTentacle" type="Node2D" node_paths=PackedStringArray("_tipSegment", "_anchor")]
+[node name="ShortTentacle" type="Node2D" node_paths=PackedStringArray("_tipSegment", "_anchor", "_segmentWrapper")]
 script = ExtResource("1_6kfp7")
 _tipSegment = NodePath("Anchor/Node/Segments/TentacleSegment6")
 _anchor = NodePath("Anchor")
+_segmentWrapper = NodePath("Anchor/Node/Segments")
 _lungeForce = 20000.0
 _retractForce = 500.0
 _maxLungeInterval = 2000

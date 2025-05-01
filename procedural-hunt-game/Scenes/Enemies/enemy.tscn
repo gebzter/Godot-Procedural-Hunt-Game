@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bf5fktdo5m6gx"]
+[gd_scene load_steps=7 format=3 uid="uid://bf5fktdo5m6gx"]
 
 [ext_resource type="Script" uid="uid://d3fguipxb3ov6" path="res://Scripts/Enemy.cs" id="1_hghv2"]
 [ext_resource type="PackedScene" uid="uid://bmvddx0kbdm4w" path="res://Scenes/Enemies/short_tentacle.tscn" id="2_jcvw6"]
+[ext_resource type="Texture2D" uid="uid://d13as006qe6co" path="res://Sprites/2d_lights_and_shadows_neutral_point_light.webp" id="2_miwey"]
 [ext_resource type="SpriteFrames" uid="uid://dvf8pav4dgo0v" path="res://Sprites/Sprite Frames/Latcher.tres" id="2_ubio8"]
 [ext_resource type="PackedScene" uid="uid://8uoviadpufy6" path="res://Scenes/Enemies/long_tentacle.tscn" id="3_x1rqp"]
 
@@ -21,6 +22,14 @@ _minWanderDuration = 5
 _maxWanderDuration = 30
 
 [node name="Visuals" type="Node2D" parent="."]
+
+[node name="PointLight2D" type="PointLight2D" parent="Visuals"]
+color = Color(0.466034, 0.795744, 1.80972e-05, 1)
+energy = 0.2
+shadow_enabled = true
+shadow_filter = 1
+shadow_filter_smooth = 1.0
+texture = ExtResource("2_miwey")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Visuals"]
 modulate = Color(0, 0, 0, 1)
