@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://0amc7dpldhja"
+path="res://.godot/imported/Latcher Aggressive 1.mp3-cac01ae1908d7eceb6e2a2180578f1b1.mp3str"
+
+[deps]
+
+source_file="res://Audio/Latcher Aggressive 1.mp3"
+dest_files=["res://.godot/imported/Latcher Aggressive 1.mp3-cac01ae1908d7eceb6e2a2180578f1b1.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -425,6 +425,18 @@ public partial class MapGenerator : Node2D
 		}
 	}
 
+	//gets random position on A* graph.
+	public Godot.Vector2 GetRandomPosition(Random random)
+	{
+		long[] points = AStar.GetPointIds();
+
+		int randomIndex = random.Next(0, points.Length);
+
+		Godot.Vector2 randomPos = AStar.GetPointPosition(points[randomIndex]);
+
+		return randomPos;
+	}
+
 	//event methods
 
 	//called when RoomInitialisedEvent is fired.

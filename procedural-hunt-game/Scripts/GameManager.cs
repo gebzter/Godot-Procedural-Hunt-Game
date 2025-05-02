@@ -8,10 +8,10 @@ public partial class GameManager : Node2D
 {
 	//references.
 	[Export] private MapGenerator _mapGenerator;
-	[Export] private PackedScene _enemyPackedScene;
+	[Export] private PackedScene _latcherPackedScene;
 	[Export] private Player _player;
 
-	private Enemy _enemy;
+	private Latcher _latcher;
 
 	public override void _Ready()
 	{
@@ -30,24 +30,23 @@ public partial class GameManager : Node2D
 	//generates enemy and puts it in a random position.
 	private async Task InstantiateEnemy()
 	{
-		Node2D newEnemy = _enemyPackedScene.Instantiate<Node2D>();
-		_enemy = (Enemy) newEnemy;
+		Node2D newLatcher = _latcherPackedScene.Instantiate<Node2D>();
+		_latcher = (Latcher) newLatcher;
 
 		//initialises references.
-		_enemy.MapGenerator = _mapGenerator;
-		_enemy.Player = _player;
-		_enemy.AStar = _mapGenerator.AStar;
+		_latcher.MapGenerator = _mapGenerator;
+		_latcher.Player = _player;
 
-		newEnemy.Position = _enemy.GetRandomPosition(new Random()); //randomly positions enemy at a minimum distance from the starting location.
+		newLatcher.Position = _mapGenerator.GetRandomPosition(new Random()); //randomly positions enemy at a minimum distance from the starting location.
 
-		while (newEnemy.Position.Length() < _enemy.SpawnRadius)
+		while (newLatcher.Position.Length() < _latcher.SpawnRadius)
 		{
-			newEnemy.Position = _enemy.GetRandomPosition(new Random()); //randomly positions enemy at a minimum distance from the starting location.
+			newLatcher.Position = _mapGenerator.GetRandomPosition(new Random()); //randomly positions enemy at a minimum distance from the starting location.
 			GD.Print("Repositioning Enemy");
 		}
 
-		GetParent().AddChild(newEnemy);
+		GetParent().AddChild(newLatcher);
 
-		_enemy.StartEnemyBehaviour();
+		_latcher.StartEnemyBehaviour();
 	} 
 }
