@@ -1,0 +1,82 @@
+[gd_scene load_steps=7 format=3 uid="uid://5u1y0g2gogoq"]
+
+[ext_resource type="Script" uid="uid://dfmsrqigdoqxe" path="res://Core/Player/Player.cs" id="1_v0iea"]
+[ext_resource type="PackedScene" uid="uid://cfljducpcdnuv" path="res://Core/Player/player_tracks.tscn" id="2_cvnsp"]
+[ext_resource type="SpriteFrames" uid="uid://btonxtnkmbqxg" path="res://Assets/Sprites/Sprite Frames/Player.tres" id="4_fkybt"]
+[ext_resource type="Texture2D" uid="uid://d13as006qe6co" path="res://Assets/Sprites/2d_lights_and_shadows_neutral_point_light.webp" id="4_vgqql"]
+[ext_resource type="Texture2D" uid="uid://p35gw55bg6wd" path="res://Assets/Sprites/Gradient_Cone.png" id="4_x3wgy"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v0iea"]
+radius = 6.0
+
+[node name="Player" type="CharacterBody2D"]
+z_index = 5
+collision_mask = 2
+motion_mode = 1
+script = ExtResource("1_v0iea")
+_tracks = ExtResource("2_cvnsp")
+_speed = 125.0
+_deceleration = 75.0
+_tracksInterval = 4.0
+
+[node name="EyeBeam" type="PointLight2D" parent="."]
+scale = Vector2(0.4, 0.4)
+energy = 3.0
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 0.180392)
+shadow_filter = 1
+shadow_filter_smooth = 1.0
+texture = ExtResource("4_x3wgy")
+
+[node name="PassiveLightOcclusion" type="PointLight2D" parent="."]
+scale = Vector2(0.4, 0.4)
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 0.180392)
+shadow_filter = 1
+shadow_filter_smooth = 1.0
+texture = ExtResource("4_vgqql")
+
+[node name="PassiveLightNoOcclusion" type="PointLight2D" parent="."]
+position = Vector2(1.24375e-06, 0)
+energy = 0.2
+shadow_color = Color(1, 1, 1, 0.180392)
+shadow_filter = 1
+shadow_filter_smooth = 0.7
+texture = ExtResource("4_vgqql")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("4_fkybt")
+autoplay = "default"
+frame_progress = 0.672554
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_v0iea")
+
+[node name="CPUParticles2DSlow" type="CPUParticles2D" parent="."]
+modulate = Color(1, 0, 1, 1)
+z_index = -1
+position = Vector2(-6, 0)
+lifetime = 0.5
+emission_shape = 1
+emission_sphere_radius = 6.0
+direction = Vector2(-1, 0)
+gravity = Vector2(0, 0)
+initial_velocity_min = 8.0
+initial_velocity_max = 12.0
+scale_amount_max = 1.5
+
+[node name="CPUParticles2D2Fast" type="CPUParticles2D" parent="."]
+modulate = Color(1, 0, 1, 1)
+z_index = -1
+position = Vector2(-6, 0)
+amount = 16
+lifetime = 0.5
+local_coords = true
+emission_shape = 1
+emission_sphere_radius = 6.0
+direction = Vector2(-1, 0)
+spread = 10.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 25.0
+initial_velocity_max = 50.0
+scale_amount_max = 1.5

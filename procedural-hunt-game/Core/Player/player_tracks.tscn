@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://cfljducpcdnuv"]
+
+[ext_resource type="Script" uid="uid://den73tj7dxe53" path="res://Core/Player/Tracks.cs" id="1_rf00t"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sfaob"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_rf00t"]
+
+[node name="PlayerTracks" type="Node2D"]
+script = ExtResource("1_rf00t")
+_lifeTime = 8000
+
+[node name="Area2D" type="Area2D" parent="."]
+scale = Vector2(1.5, 1.5)
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+scale = Vector2(5, 5)
+shape = SubResource("CircleShape2D_sfaob")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(8, 8)
+texture = SubResource("PlaceholderTexture2D_rf00t")
