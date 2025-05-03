@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://dm0mjehuinsi5"]
+
+[node name="Directional Audio Player" type="AudioStreamPlayer2D"]
+bus = &"SFX"

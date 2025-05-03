@@ -80,18 +80,18 @@ public partial class Latcher : Enemy
 
 		if (CanSeePlayer == true)
 		{
-			_behaviour = EnemyBehaviour.Chase;
+			Behaviour = EnemyBehaviour.Chase;
 		}
-		else if (GlobalPosition.DistanceTo(_lastPlayerPos) > _pathfindFalloff && _behaviour != EnemyBehaviour.Wander)
+		else if (GlobalPosition.DistanceTo(_lastPlayerPos) > _pathfindFalloff && Behaviour != EnemyBehaviour.Wander)
 		{
-			_behaviour = EnemyBehaviour.Hunt;
+			Behaviour = EnemyBehaviour.Hunt;
 		}
 		else
 		{
-			_behaviour = EnemyBehaviour.Wander;
+			Behaviour = EnemyBehaviour.Wander;
 		}
 
-		switch (_behaviour)
+		switch (Behaviour)
 		{
 			case (EnemyBehaviour.Wander):
 				Wander();

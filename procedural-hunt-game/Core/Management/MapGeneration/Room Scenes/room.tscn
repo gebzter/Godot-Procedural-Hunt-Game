@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://c1p06uvtnw8qa"]
 
-[ext_resource type="Script" uid="uid://b3fre6nlpxl8g" path="res://Core/Management/MapGenerator/Room.cs" id="1_lsht4"]
+[ext_resource type="Script" uid="uid://b3fre6nlpxl8g" path="res://Core/Management/MapGeneration/Room.cs" id="1_lsht4"]
 [ext_resource type="Texture2D" uid="uid://baa5m4lo3ol40" path="res://Assets/Sprites/Hunter_Game_Tileset.png" id="1_mbine"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_x7265"]

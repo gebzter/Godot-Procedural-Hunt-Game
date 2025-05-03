@@ -32,36 +32,37 @@ _jointObjectPath = "../../../../../Anchor"
 
 [node name="TentacleSegment2" parent="Anchor/Node/Segments" instance=ExtResource("1_acvo3")]
 position = Vector2(6, 0)
+rotation = 3.14159
 _jointObjectPath = "../../TentacleSegment/RigidBody2D"
 
 [node name="TentacleSegment3" parent="Anchor/Node/Segments" instance=ExtResource("1_acvo3")]
-position = Vector2(12, 0)
 _jointObjectPath = "../../TentacleSegment2/RigidBody2D"
 
 [node name="TentacleSegment4" parent="Anchor/Node/Segments" instance=ExtResource("1_acvo3")]
-position = Vector2(18, 0)
+position = Vector2(6, 0)
+rotation = 3.14159
 _jointObjectPath = "../../TentacleSegment3/RigidBody2D"
 
 [node name="TentacleSegment5" parent="Anchor/Node/Segments" instance=ExtResource("1_acvo3")]
-position = Vector2(24, 0)
 _jointObjectPath = "../../TentacleSegment4/RigidBody2D"
 
 [node name="TentacleSegment6" parent="Anchor/Node/Segments" instance=ExtResource("1_acvo3")]
-position = Vector2(30, 0)
+position = Vector2(6, 0)
+rotation = 3.14159
 _jointObjectPath = "../../TentacleSegment5/RigidBody2D"
 
 [node name="TentacleSegment7" parent="Anchor/Node/Segments" instance=ExtResource("1_acvo3")]
-position = Vector2(36, 0)
 _jointObjectPath = "../../TentacleSegment6/RigidBody2D"
 
 [node name="TentacleSegment8" parent="Anchor/Node/Segments" instance=ExtResource("1_acvo3")]
-position = Vector2(42, 0)
+position = Vector2(6, 0)
+rotation = 3.14159
 _jointObjectPath = "../../TentacleSegment7/RigidBody2D"
 
 [node name="TentacleSegment9" parent="Anchor/Node/Segments" instance=ExtResource("1_acvo3")]
-position = Vector2(48, 0)
 _jointObjectPath = "../../TentacleSegment8/RigidBody2D"
 
 [node name="TentacleSegment10" parent="Anchor/Node/Segments" instance=ExtResource("1_acvo3")]
-position = Vector2(54, 0)
+position = Vector2(6, 0)
+rotation = 3.14159
 _jointObjectPath = "../../TentacleSegment9/RigidBody2D"

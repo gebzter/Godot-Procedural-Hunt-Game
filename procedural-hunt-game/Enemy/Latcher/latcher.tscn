@@ -1,10 +1,27 @@
-[gd_scene load_steps=7 format=3 uid="uid://bf5fktdo5m6gx"]
+[gd_scene load_steps=21 format=3 uid="uid://bf5fktdo5m6gx"]
 
 [ext_resource type="Script" uid="uid://bsbd4xet5t5wf" path="res://Enemy/Latcher/Latcher.cs" id="1_kwc7l"]
 [ext_resource type="PackedScene" uid="uid://bmvddx0kbdm4w" path="res://Enemy/Latcher/short_tentacle.tscn" id="2_jcvw6"]
 [ext_resource type="Texture2D" uid="uid://d13as006qe6co" path="res://Assets/Sprites/2d_lights_and_shadows_neutral_point_light.webp" id="2_miwey"]
 [ext_resource type="SpriteFrames" uid="uid://dvf8pav4dgo0v" path="res://Assets/Sprites/Sprite Frames/Latcher.tres" id="2_ubio8"]
 [ext_resource type="PackedScene" uid="uid://8uoviadpufy6" path="res://Enemy/Latcher/long_tentacle.tscn" id="3_x1rqp"]
+[ext_resource type="Script" uid="uid://dmcuqe6homin7" path="res://Core/LightPulse.cs" id="3_xbsc3"]
+[ext_resource type="PackedScene" uid="uid://dm0mjehuinsi5" path="res://Core/Audio/directional_audio_player.tscn" id="6_1iebl"]
+[ext_resource type="AudioStream" uid="uid://dbq6b3u4md753" path="res://Assets/Audio/Latcher Distant 1.mp3" id="7_1iebl"]
+[ext_resource type="AudioStream" uid="uid://0amc7dpldhja" path="res://Assets/Audio/Latcher Aggressive 1.mp3" id="7_pq3oc"]
+[ext_resource type="Script" uid="uid://qbkfbus1uamf" path="res://Enemy/Latcher/LatcherAudioController.cs" id="8_n7lah"]
+[ext_resource type="AudioStream" uid="uid://dxak5y3ifwgom" path="res://Assets/Audio/Latcher Distant 2.mp3" id="9_1xrap"]
+[ext_resource type="AudioStream" uid="uid://d4dtla8ibovxf" path="res://Assets/Audio/Latcher Passive 1.mp3" id="10_xbsc3"]
+[ext_resource type="AudioStream" uid="uid://iylfbmxmc2jl" path="res://Assets/Audio/Latcher Passive 2.mp3" id="11_pmxc0"]
+[ext_resource type="AudioStream" uid="uid://bna36psi0ymdy" path="res://Assets/Audio/Latcher Passive 3.mp3" id="12_twmoe"]
+[ext_resource type="AudioStream" uid="uid://bflephttf0ui8" path="res://Assets/Audio/Latcher Passive 4.mp3" id="13_vv024"]
+[ext_resource type="AudioStream" uid="uid://6w3u1qwajruv" path="res://Assets/Audio/Latcher Aggressive 2.mp3" id="15_enn66"]
+[ext_resource type="AudioStream" uid="uid://dvxfbxmf6vnhk" path="res://Assets/Audio/Latcher Aggressive 3.mp3" id="16_lmgl2"]
+[ext_resource type="AudioStream" uid="uid://cct4vhhnt08gx" path="res://Assets/Audio/Latcher_Slither.mp3" id="17_1xrap"]
+
+[sub_resource type="Gradient" id="Gradient_xbsc3"]
+offsets = PackedFloat32Array(0.673913, 1)
+colors = PackedColorArray(0, 0, 0, 0.694118, 0, 0, 0, 0)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_613su"]
 
@@ -14,7 +31,7 @@ _rayCast = NodePath("RayCast2D")
 _wanderInterpolationWeight = 0.05
 _huntInterpolationWeight = 0.07
 _chaseInterpolationWeight = 0.085
-_passiveDetectionRadius = 128.0
+_passiveDetectionRadius = 150.0
 _spawnRadius = 320.0
 _minWanderDuration = 5
 _maxWanderDuration = 30
@@ -23,15 +40,23 @@ _pathfindFalloff = 16.0
 
 [node name="Visuals" type="Node2D" parent="."]
 
-[node name="PointLight2D" type="PointLight2D" parent="Visuals"]
+[node name="PointLight2D" type="PointLight2D" parent="Visuals" node_paths=PackedStringArray("_light")]
+scale = Vector2(2, 2)
 color = Color(0.466034, 0.795744, 1.80972e-05, 1)
-energy = 0.2
+energy = 0.0
 shadow_enabled = true
 shadow_filter = 1
 shadow_filter_smooth = 1.0
 texture = ExtResource("2_miwey")
+script = ExtResource("3_xbsc3")
+_light = NodePath(".")
+_maxEnergy = 0.2
+_pulseInterval = 5000
+_pulseDuration = 500
+_pulseFrames = 10.0
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Visuals"]
+visible = false
 modulate = Color(0, 0, 0, 1)
 position = Vector2(4, 0)
 amount = 32
@@ -48,6 +73,7 @@ angle_max = 720.0
 scale_amount_max = 4.0
 
 [node name="CPUParticles2D2" type="CPUParticles2D" parent="Visuals"]
+visible = false
 modulate = Color(0, 0, 0, 1)
 position = Vector2(3, 0)
 amount = 32
@@ -61,6 +87,18 @@ orbit_velocity_max = 1.0
 damping_min = 300.0
 damping_max = 600.0
 scale_amount_max = 4.0
+
+[node name="Slime Trail Particles" type="CPUParticles2D" parent="Visuals"]
+amount = 32
+lifetime = 10.0
+emission_shape = 1
+emission_sphere_radius = 8.0
+gravity = Vector2(0, 0)
+angle_min = -720.0
+angle_max = 720.0
+scale_amount_max = 4.0
+color = Color(0, 0, 0, 0.443137)
+color_ramp = SubResource("Gradient_xbsc3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visuals"]
 sprite_frames = ExtResource("2_ubio8")
@@ -105,5 +143,26 @@ collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TracksDetector"]
 shape = SubResource("CircleShape2D_613su")
+
+[node name="Audio Controller" type="Node2D" parent="." node_paths=PackedStringArray("_latcher", "_streamPlayer")]
+script = ExtResource("8_n7lah")
+_distantSounds = Array[AudioStreamMP3]([ExtResource("7_1iebl"), ExtResource("9_1xrap")])
+_passiveSounds = Array[AudioStreamMP3]([ExtResource("10_xbsc3"), ExtResource("11_pmxc0"), ExtResource("12_twmoe"), ExtResource("13_vv024")])
+_aggressiveSounds = Array[AudioStreamMP3]([ExtResource("7_pq3oc"), ExtResource("15_enn66"), ExtResource("16_lmgl2")])
+_latcher = NodePath("..")
+_minSoundInterval = 1000
+_distantThreshold = 600
+_streamPlayer = NodePath("Directional Audio Player")
+
+[node name="Directional Audio Player" parent="Audio Controller" instance=ExtResource("6_1iebl")]
+stream = ExtResource("7_1iebl")
+volume_db = -10.0
+autoplay = true
+panning_strength = 3.0
+
+[node name="Slither Audio" parent="." instance=ExtResource("6_1iebl")]
+stream = ExtResource("17_1xrap")
+autoplay = true
+max_distance = 500.0
 
 [connection signal="area_entered" from="TracksDetector" to="." method="OnAreaEntered"]

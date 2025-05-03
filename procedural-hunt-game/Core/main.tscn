@@ -2,24 +2,24 @@
 
 [ext_resource type="PackedScene" uid="uid://mvplw0r0hn27" path="res://Core/Management/game_manager.tscn" id="1_3t67a"]
 [ext_resource type="PackedScene" uid="uid://bf5fktdo5m6gx" path="res://Enemy/Latcher/latcher.tscn" id="2_2f3xa"]
-[ext_resource type="Script" uid="uid://ba7tp2tt7mcjw" path="res://Core/Management/MapGenerator/MapGenerator.cs" id="3_yabue"]
-[ext_resource type="PackedScene" uid="uid://b4mqfhoqf4y55" path="res://Core/Management/MapGenerator/Room Scenes/Crossroad Rooms/roomC01.tscn" id="4_coowd"]
-[ext_resource type="PackedScene" uid="uid://bx40pd7v56i46" path="res://Core/Management/MapGenerator/Room Scenes/Dead End Rooms/roomD01.tscn" id="5_0vun1"]
-[ext_resource type="PackedScene" uid="uid://yb0l3vfl7o68" path="res://Core/Management/MapGenerator/Room Scenes/Dead End Rooms/roomD02.tscn" id="6_svoxa"]
-[ext_resource type="PackedScene" uid="uid://c6oaqbwob0nr0" path="res://Core/Management/MapGenerator/Room Scenes/Dead End Rooms/roomD03.tscn" id="7_0o4dc"]
-[ext_resource type="PackedScene" uid="uid://dhack10o0a17k" path="res://Core/Management/MapGenerator/Room Scenes/Dead End Rooms/roomD04.tscn" id="8_ldj6c"]
-[ext_resource type="PackedScene" uid="uid://bfkcqb4ddwbta" path="res://Core/Management/MapGenerator/Room Scenes/L Rooms/roomL01.tscn" id="9_drbnu"]
-[ext_resource type="PackedScene" uid="uid://cy2m61jxw32ul" path="res://Core/Management/MapGenerator/Room Scenes/L Rooms/roomL02.tscn" id="10_f2flb"]
-[ext_resource type="PackedScene" uid="uid://db415onfwqjd8" path="res://Core/Management/MapGenerator/Room Scenes/L Rooms/roomL03.tscn" id="11_avw2k"]
-[ext_resource type="PackedScene" uid="uid://dw4qfkoals32" path="res://Core/Management/MapGenerator/Room Scenes/L Rooms/roomL04.tscn" id="12_1fley"]
-[ext_resource type="PackedScene" uid="uid://bmnulcb44i6jh" path="res://Core/Management/MapGenerator/Room Scenes/Straight Rooms/roomS01.tscn" id="13_ntanq"]
-[ext_resource type="PackedScene" uid="uid://bjuybplp83aa" path="res://Core/Management/MapGenerator/Room Scenes/Straight Rooms/roomS02.tscn" id="14_bh0b2"]
-[ext_resource type="PackedScene" uid="uid://4fj0yyy0880o" path="res://Core/Management/MapGenerator/Room Scenes/T-Junction Rooms/roomT01.tscn" id="15_5kgk6"]
-[ext_resource type="PackedScene" uid="uid://wk7aqqi2bdpy" path="res://Core/Management/MapGenerator/Room Scenes/T-Junction Rooms/roomT02.tscn" id="16_nowlm"]
-[ext_resource type="PackedScene" uid="uid://dpn2wnb7gc2wm" path="res://Core/Management/MapGenerator/Room Scenes/T-Junction Rooms/roomT03.tscn" id="17_w8hgj"]
-[ext_resource type="PackedScene" uid="uid://cmy8xc1465jgh" path="res://Core/Management/MapGenerator/Room Scenes/T-Junction Rooms/roomT04.tscn" id="18_tkitp"]
-[ext_resource type="PackedScene" uid="uid://c4gx71nta86eb" path="res://Core/Management/MapGenerator/Room Scenes/Crossroad Rooms/roomC02.tscn" id="19_a4dfi"]
-[ext_resource type="PackedScene" uid="uid://domgji2hd7xi1" path="res://Core/Management/MapGenerator/test.tscn" id="20_7304m"]
+[ext_resource type="Script" uid="uid://ba7tp2tt7mcjw" path="res://Core/Management/MapGeneration/MapGenerator.cs" id="3_yabue"]
+[ext_resource type="PackedScene" uid="uid://b4mqfhoqf4y55" path="res://Core/Management/MapGeneration/Room Scenes/Crossroad Rooms/roomC01.tscn" id="4_coowd"]
+[ext_resource type="PackedScene" uid="uid://bx40pd7v56i46" path="res://Core/Management/MapGeneration/Room Scenes/Dead End Rooms/roomD01.tscn" id="5_0vun1"]
+[ext_resource type="PackedScene" uid="uid://yb0l3vfl7o68" path="res://Core/Management/MapGeneration/Room Scenes/Dead End Rooms/roomD02.tscn" id="6_svoxa"]
+[ext_resource type="PackedScene" uid="uid://c6oaqbwob0nr0" path="res://Core/Management/MapGeneration/Room Scenes/Dead End Rooms/roomD03.tscn" id="7_0o4dc"]
+[ext_resource type="PackedScene" uid="uid://dhack10o0a17k" path="res://Core/Management/MapGeneration/Room Scenes/Dead End Rooms/roomD04.tscn" id="8_ldj6c"]
+[ext_resource type="PackedScene" uid="uid://bfkcqb4ddwbta" path="res://Core/Management/MapGeneration/Room Scenes/L Rooms/roomL01.tscn" id="9_drbnu"]
+[ext_resource type="PackedScene" uid="uid://cy2m61jxw32ul" path="res://Core/Management/MapGeneration/Room Scenes/L Rooms/roomL02.tscn" id="10_f2flb"]
+[ext_resource type="PackedScene" uid="uid://db415onfwqjd8" path="res://Core/Management/MapGeneration/Room Scenes/L Rooms/roomL03.tscn" id="11_avw2k"]
+[ext_resource type="PackedScene" uid="uid://dw4qfkoals32" path="res://Core/Management/MapGeneration/Room Scenes/L Rooms/roomL04.tscn" id="12_1fley"]
+[ext_resource type="PackedScene" uid="uid://bmnulcb44i6jh" path="res://Core/Management/MapGeneration/Room Scenes/Straight Rooms/roomS01.tscn" id="13_ntanq"]
+[ext_resource type="PackedScene" uid="uid://bjuybplp83aa" path="res://Core/Management/MapGeneration/Room Scenes/Straight Rooms/roomS02.tscn" id="14_bh0b2"]
+[ext_resource type="PackedScene" uid="uid://4fj0yyy0880o" path="res://Core/Management/MapGeneration/Room Scenes/T-Junction Rooms/roomT01.tscn" id="15_5kgk6"]
+[ext_resource type="PackedScene" uid="uid://wk7aqqi2bdpy" path="res://Core/Management/MapGeneration/Room Scenes/T-Junction Rooms/roomT02.tscn" id="16_nowlm"]
+[ext_resource type="PackedScene" uid="uid://dpn2wnb7gc2wm" path="res://Core/Management/MapGeneration/Room Scenes/T-Junction Rooms/roomT03.tscn" id="17_w8hgj"]
+[ext_resource type="PackedScene" uid="uid://cmy8xc1465jgh" path="res://Core/Management/MapGeneration/Room Scenes/T-Junction Rooms/roomT04.tscn" id="18_tkitp"]
+[ext_resource type="PackedScene" uid="uid://c4gx71nta86eb" path="res://Core/Management/MapGeneration/Room Scenes/Crossroad Rooms/roomC02.tscn" id="19_a4dfi"]
+[ext_resource type="PackedScene" uid="uid://domgji2hd7xi1" path="res://Core/Management/MapGeneration/grid_test_widget.tscn" id="20_7304m"]
 [ext_resource type="PackedScene" uid="uid://5u1y0g2gogoq" path="res://Core/Player/player.tscn" id="21_ernaw"]
 
 [sub_resource type="Shader" id="Shader_pdsj5"]
@@ -63,7 +63,7 @@ _depthLimit = 6
 [node name="Background" type="Polygon2D" parent="."]
 z_index = -10
 position = Vector2(6.99999, 34)
-scale = Vector2(20, 20)
+scale = Vector2(100, 100)
 color = Color(0.129412, 0.121569, 0.0941176, 1)
 polygon = PackedVector2Array(-119.75, -72.15, 121.25, -72.45, 122.45, 71.3, -120.65, 72.2)
 
@@ -81,4 +81,5 @@ position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color(0.525101, 0.525101, 0.525101, 1)
+position = Vector2(2, 2)
+color = Color(0, 0, 0, 1)

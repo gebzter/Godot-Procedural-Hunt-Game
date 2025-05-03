@@ -39,7 +39,12 @@ public partial class Enemy : Node2D
 	protected Godot.Vector2 playerPos;
 	protected Godot.Vector2 _lastPlayerPos = new Godot.Vector2(); //last position player was detected at.
 
-	protected EnemyBehaviour _behaviour = EnemyBehaviour.Wander;
+	private EnemyBehaviour _behaviour = EnemyBehaviour.Wander;
+	public EnemyBehaviour Behaviour
+	{
+		get { return _behaviour; }
+		set {_behaviour = value; }
+	}
 
 	private float _moveAngle = 0; //angle from current position to next tile.
 
