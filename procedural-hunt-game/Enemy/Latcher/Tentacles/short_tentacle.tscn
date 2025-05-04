@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bmvddx0kbdm4w"]
 
-[ext_resource type="Script" uid="uid://n1o18nudthvj" path="res://Enemy/Latcher/Tentacle.cs" id="1_6kfp7"]
-[ext_resource type="PackedScene" uid="uid://yp4kqfpuy224" path="res://Enemy/Latcher/tentacle_segment.tscn" id="2_cvfdr"]
+[ext_resource type="Script" uid="uid://n1o18nudthvj" path="res://Enemy/Latcher/Tentacles/Tentacle.cs" id="1_6kfp7"]
+[ext_resource type="PackedScene" uid="uid://yp4kqfpuy224" path="res://Enemy/Latcher/Tentacles/tentacle_segment.tscn" id="2_cvfdr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_d5u1c"]
 

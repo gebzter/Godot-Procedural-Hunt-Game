@@ -9,6 +9,8 @@ using System.Numerics;
 public partial class Latcher : Enemy
 {
 	//references.
+	[Export] private WebSpawner _webSpawner;
+
 	[Export] private RayCast2D _rayCast;
 	[Export] private float _rayCastLength = 500;
 
@@ -40,6 +42,8 @@ public partial class Latcher : Enemy
 	[Export] private int _minWanderDuration, _maxWanderDuration;
 	private Godot.Vector2 _wanderTargetPos = new Godot.Vector2(0, 0); //random position used with wandering algorithm.
 
+
+
 	//periodically pathfinds to random tile.
 	private void Wander()
 	{
@@ -48,6 +52,8 @@ public partial class Latcher : Enemy
 			Random random = new Random();
 			_wanderTimer = random.Next(_minWanderDuration, _maxWanderDuration);
 			_wanderTargetPos = MapGenerator.GetRandomPosition(random);
+
+			_webSpawner.PlaceWeb(_rayCast, Player);
 		}
 
 		Pathfind(_wanderTargetPos, _wanderInterpolationWeight);

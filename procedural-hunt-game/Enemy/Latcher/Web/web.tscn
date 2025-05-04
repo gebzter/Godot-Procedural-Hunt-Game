@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://d2fjgkvgq0ncu"]
+
+[ext_resource type="Texture2D" uid="uid://jxeyxkur0wq6" path="res://Sprites/web.png" id="1_qxlbt"]
+[ext_resource type="Script" uid="uid://bmy1tu6kyml76" path="res://Enemy/Latcher/Web/Web.cs" id="1_swp2k"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4tkyd"]
+size = Vector2(16, 12)
+
+[node name="Web" type="Node2D"]
+z_index = 9
+scale = Vector2(1.2, 0.5)
+script = ExtResource("1_swp2k")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_qxlbt")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_4tkyd")
