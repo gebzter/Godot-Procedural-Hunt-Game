@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d13as006qe6co"
-path="res://.godot/imported/2d_lights_and_shadows_neutral_point_light.webp-88718c1fa283a6855d6c83eecb379eaf.ctex"
+uid="uid://csvt1bhgi3kix"
+path="res://.godot/imported/Eyeball_Player.png-a883eaae3d440840b04d594c675f22f4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/2d_lights_and_shadows_neutral_point_light.webp"
-dest_files=["res://.godot/imported/2d_lights_and_shadows_neutral_point_light.webp-88718c1fa283a6855d6c83eecb379eaf.ctex"]
+source_file="res://Sprites/Eyeball_Player.png"
+dest_files=["res://.godot/imported/Eyeball_Player.png-a883eaae3d440840b04d594c675f22f4.ctex"]
 
 [params]
 

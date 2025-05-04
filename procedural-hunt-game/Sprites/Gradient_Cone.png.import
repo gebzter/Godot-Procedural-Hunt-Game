@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://csvt1bhgi3kix"
-path="res://.godot/imported/Eyeball_Player.png-b0f7b0d6ce515ad9fef0be8aebd313c1.ctex"
+uid="uid://p35gw55bg6wd"
+path="res://.godot/imported/Gradient_Cone.png-8b35e297865679f8f9474b7af4c14c3b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/Eyeball_Player.png"
-dest_files=["res://.godot/imported/Eyeball_Player.png-b0f7b0d6ce515ad9fef0be8aebd313c1.ctex"]
+source_file="res://Sprites/Gradient_Cone.png"
+dest_files=["res://.godot/imported/Gradient_Cone.png-8b35e297865679f8f9474b7af4c14c3b.ctex"]
 
 [params]
 

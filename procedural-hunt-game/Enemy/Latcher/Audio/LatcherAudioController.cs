@@ -1,4 +1,4 @@
-namespace Enemy.Latcher;
+namespace Enemy.Latcher.Audio;
 
 using Core.Audio;
 using Core.Player;

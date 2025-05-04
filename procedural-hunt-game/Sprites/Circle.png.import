@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://baa5m4lo3ol40"
-path="res://.godot/imported/Hunter_Game_Tileset.png-28d0425a9615939a060c21190f723376.ctex"
+uid="uid://bogesj1s6bstc"
+path="res://.godot/imported/Circle.png-0c45e21435093ae348e4b37cb96ba5fa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/Hunter_Game_Tileset.png"
-dest_files=["res://.godot/imported/Hunter_Game_Tileset.png-28d0425a9615939a060c21190f723376.ctex"]
+source_file="res://Sprites/Circle.png"
+dest_files=["res://.godot/imported/Circle.png-0c45e21435093ae348e4b37cb96ba5fa.ctex"]
 
 [params]
 

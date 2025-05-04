@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://n0vnuhu7k4kj"
-path="res://.godot/imported/Latcher.png-bc2ebad17539fea42e49dbd0a49a827a.ctex"
+path="res://.godot/imported/Latcher.png-eef4dc0bf46dd55e4eb9194d1ba58cf8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/Latcher.png"
-dest_files=["res://.godot/imported/Latcher.png-bc2ebad17539fea42e49dbd0a49a827a.ctex"]
+source_file="res://Sprites/Latcher.png"
+dest_files=["res://.godot/imported/Latcher.png-eef4dc0bf46dd55e4eb9194d1ba58cf8.ctex"]
 
 [params]
 

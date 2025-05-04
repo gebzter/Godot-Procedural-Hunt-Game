@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://yp4kqfpuy224"]
 
 [ext_resource type="Script" uid="uid://c1o36rattgjaj" path="res://Enemy/Latcher/TentacleSegment.cs" id="1_qm0id"]
-[ext_resource type="Texture2D" uid="uid://b7wci7sjn30wx" path="res://Assets/Sprites/icon.svg" id="2_dirni"]
+[ext_resource type="Texture2D" uid="uid://b7wci7sjn30wx" path="res://Sprites/icon.svg" id="2_dirni"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b4nxl"]
 radius = 1.0

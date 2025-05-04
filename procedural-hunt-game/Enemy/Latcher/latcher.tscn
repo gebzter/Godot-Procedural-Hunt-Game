@@ -2,22 +2,22 @@
 
 [ext_resource type="Script" uid="uid://bsbd4xet5t5wf" path="res://Enemy/Latcher/Latcher.cs" id="1_kwc7l"]
 [ext_resource type="PackedScene" uid="uid://bmvddx0kbdm4w" path="res://Enemy/Latcher/short_tentacle.tscn" id="2_jcvw6"]
-[ext_resource type="Texture2D" uid="uid://d13as006qe6co" path="res://Assets/Sprites/2d_lights_and_shadows_neutral_point_light.webp" id="2_miwey"]
-[ext_resource type="SpriteFrames" uid="uid://dvf8pav4dgo0v" path="res://Assets/Sprites/Sprite Frames/Latcher.tres" id="2_ubio8"]
+[ext_resource type="Texture2D" uid="uid://d13as006qe6co" path="res://Sprites/2d_lights_and_shadows_neutral_point_light.webp" id="2_miwey"]
+[ext_resource type="SpriteFrames" uid="uid://dvf8pav4dgo0v" path="res://Sprites/Sprite Frames/Latcher.tres" id="2_ubio8"]
 [ext_resource type="PackedScene" uid="uid://8uoviadpufy6" path="res://Enemy/Latcher/long_tentacle.tscn" id="3_x1rqp"]
-[ext_resource type="Script" uid="uid://dmcuqe6homin7" path="res://Core/LightPulse.cs" id="3_xbsc3"]
+[ext_resource type="Script" uid="uid://dmcuqe6homin7" path="res://Core/Visuals/LightPulse.cs" id="3_xbsc3"]
 [ext_resource type="PackedScene" uid="uid://dm0mjehuinsi5" path="res://Core/Audio/directional_audio_player.tscn" id="6_1iebl"]
-[ext_resource type="AudioStream" uid="uid://dbq6b3u4md753" path="res://Assets/Audio/Latcher Distant 1.mp3" id="7_1iebl"]
-[ext_resource type="AudioStream" uid="uid://0amc7dpldhja" path="res://Assets/Audio/Latcher Aggressive 1.mp3" id="7_pq3oc"]
-[ext_resource type="Script" uid="uid://qbkfbus1uamf" path="res://Enemy/Latcher/LatcherAudioController.cs" id="8_n7lah"]
-[ext_resource type="AudioStream" uid="uid://dxak5y3ifwgom" path="res://Assets/Audio/Latcher Distant 2.mp3" id="9_1xrap"]
-[ext_resource type="AudioStream" uid="uid://d4dtla8ibovxf" path="res://Assets/Audio/Latcher Passive 1.mp3" id="10_xbsc3"]
-[ext_resource type="AudioStream" uid="uid://iylfbmxmc2jl" path="res://Assets/Audio/Latcher Passive 2.mp3" id="11_pmxc0"]
-[ext_resource type="AudioStream" uid="uid://bna36psi0ymdy" path="res://Assets/Audio/Latcher Passive 3.mp3" id="12_twmoe"]
-[ext_resource type="AudioStream" uid="uid://bflephttf0ui8" path="res://Assets/Audio/Latcher Passive 4.mp3" id="13_vv024"]
-[ext_resource type="AudioStream" uid="uid://6w3u1qwajruv" path="res://Assets/Audio/Latcher Aggressive 2.mp3" id="15_enn66"]
-[ext_resource type="AudioStream" uid="uid://dvxfbxmf6vnhk" path="res://Assets/Audio/Latcher Aggressive 3.mp3" id="16_lmgl2"]
-[ext_resource type="AudioStream" uid="uid://cct4vhhnt08gx" path="res://Assets/Audio/Latcher_Slither.mp3" id="17_1xrap"]
+[ext_resource type="AudioStream" uid="uid://dbq6b3u4md753" path="res://Enemy/Latcher/Audio/Latcher Distant 1.mp3" id="7_1iebl"]
+[ext_resource type="AudioStream" uid="uid://0amc7dpldhja" path="res://Enemy/Latcher/Audio/Latcher Aggressive 1.mp3" id="7_pq3oc"]
+[ext_resource type="Script" uid="uid://qbkfbus1uamf" path="res://Enemy/Latcher/Audio/LatcherAudioController.cs" id="8_n7lah"]
+[ext_resource type="AudioStream" uid="uid://dxak5y3ifwgom" path="res://Enemy/Latcher/Audio/Latcher Distant 2.mp3" id="9_1xrap"]
+[ext_resource type="AudioStream" uid="uid://d4dtla8ibovxf" path="res://Enemy/Latcher/Audio/Latcher Passive 1.mp3" id="10_xbsc3"]
+[ext_resource type="AudioStream" uid="uid://iylfbmxmc2jl" path="res://Enemy/Latcher/Audio/Latcher Passive 2.mp3" id="11_pmxc0"]
+[ext_resource type="AudioStream" uid="uid://bna36psi0ymdy" path="res://Enemy/Latcher/Audio/Latcher Passive 3.mp3" id="12_twmoe"]
+[ext_resource type="AudioStream" uid="uid://bflephttf0ui8" path="res://Enemy/Latcher/Audio/Latcher Passive 4.mp3" id="13_vv024"]
+[ext_resource type="AudioStream" uid="uid://6w3u1qwajruv" path="res://Enemy/Latcher/Audio/Latcher Aggressive 2.mp3" id="15_enn66"]
+[ext_resource type="AudioStream" uid="uid://dvxfbxmf6vnhk" path="res://Enemy/Latcher/Audio/Latcher Aggressive 3.mp3" id="16_lmgl2"]
+[ext_resource type="AudioStream" uid="uid://cct4vhhnt08gx" path="res://Enemy/Latcher/Audio/Latcher_Slither.mp3" id="17_1xrap"]
 
 [sub_resource type="Gradient" id="Gradient_xbsc3"]
 offsets = PackedFloat32Array(0.673913, 1)
@@ -144,7 +144,7 @@ collision_mask = 8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TracksDetector"]
 shape = SubResource("CircleShape2D_613su")
 
-[node name="Audio Controller" type="Node2D" parent="." node_paths=PackedStringArray("_latcher", "_streamPlayer")]
+[node name="AudioController" type="Node2D" parent="." node_paths=PackedStringArray("_latcher", "_streamPlayer")]
 script = ExtResource("8_n7lah")
 _distantSounds = Array[AudioStreamMP3]([ExtResource("7_1iebl"), ExtResource("9_1xrap")])
 _passiveSounds = Array[AudioStreamMP3]([ExtResource("10_xbsc3"), ExtResource("11_pmxc0"), ExtResource("12_twmoe"), ExtResource("13_vv024")])
@@ -154,13 +154,13 @@ _minSoundInterval = 1000
 _distantThreshold = 600
 _streamPlayer = NodePath("Directional Audio Player")
 
-[node name="Directional Audio Player" parent="Audio Controller" instance=ExtResource("6_1iebl")]
+[node name="Directional Audio Player" parent="AudioController" instance=ExtResource("6_1iebl")]
 stream = ExtResource("7_1iebl")
 volume_db = -10.0
 autoplay = true
 panning_strength = 3.0
 
-[node name="Slither Audio" parent="." instance=ExtResource("6_1iebl")]
+[node name="SlitherAudio" parent="." instance=ExtResource("6_1iebl")]
 stream = ExtResource("17_1xrap")
 autoplay = true
 max_distance = 500.0

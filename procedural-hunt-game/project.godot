@@ -13,11 +13,20 @@ config_version=5
 config/name="Procedural Hunt Game"
 run/main_scene="uid://civyoxlhsyxtj"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
-config/icon="res://Assets/Sprites/icon.svg"
+config/icon="res://Sprites/icon.svg"
 
 [audio]
 
 buses/default_bus_layout="res://Core/Audio/default_bus_layout.tres"
+
+[display]
+
+window/size/viewport_width=426
+window/size/viewport_height=240
+window/size/window_width_override=1280
+window/size/window_height_override=720
+window/stretch/mode="viewport"
+window/stretch/scale_mode="integer"
 
 [dotnet]
 

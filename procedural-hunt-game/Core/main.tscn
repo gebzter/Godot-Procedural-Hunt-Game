@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://civyoxlhsyxtj"]
+[gd_scene load_steps=22 format=3 uid="uid://civyoxlhsyxtj"]
 
 [ext_resource type="PackedScene" uid="uid://mvplw0r0hn27" path="res://Core/Management/game_manager.tscn" id="1_3t67a"]
 [ext_resource type="PackedScene" uid="uid://bf5fktdo5m6gx" path="res://Enemy/Latcher/latcher.tscn" id="2_2f3xa"]
@@ -22,30 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://domgji2hd7xi1" path="res://Core/Management/MapGeneration/grid_test_widget.tscn" id="20_7304m"]
 [ext_resource type="PackedScene" uid="uid://5u1y0g2gogoq" path="res://Core/Player/player.tscn" id="21_ernaw"]
 
-[sub_resource type="Shader" id="Shader_pdsj5"]
-code = "shader_type canvas_item;
-
-uniform float pixelate: hint_range(2, 512, 4) = 256;
-uniform sampler2D SCREEN_TEXTURE: hint_screen_texture, filter_linear_mipmap;
-
-void fragment ()
-{
-	vec2 uv = floor(UV * pixelate) / pixelate;
-	COLOR = textureLod(SCREEN_TEXTURE, uv, 0.0);
-}
-
-// Called for every pixel for every light affecting the CanvasItem.
-// Uncomment to replace the default light processing function with this one.
-//void light() 
-//{
-//}
-"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_3pmx8"]
-shader = SubResource("Shader_pdsj5")
-shader_parameter/pixelate = 256.0
-
-[node name="Game" type="Node2D"]
+[node name="Main" type="Node2D"]
 
 [node name="GameManager" parent="." node_paths=PackedStringArray("_mapGenerator", "_player") instance=ExtResource("1_3t67a")]
 _mapGenerator = NodePath("../MapGenerator")
@@ -67,19 +44,17 @@ scale = Vector2(100, 100)
 color = Color(0.129412, 0.121569, 0.0941176, 1)
 polygon = PackedVector2Array(-119.75, -72.15, 121.25, -72.45, 122.45, 71.3, -120.65, 72.2)
 
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+position = Vector2(2, 2)
+color = Color(0, 0, 0, 1)
+
 [node name="Player" parent="." node_paths=PackedStringArray("_gameNode") instance=ExtResource("21_ernaw")]
 motion_mode = 0
 _gameNode = NodePath("..")
 _speed = 100.0
 _deceleration = 20.0
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
-material = SubResource("ShaderMaterial_3pmx8")
-zoom = Vector2(3, 3)
+[node name="PlayerCam" type="Camera2D" parent="Player"]
 process_callback = 0
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
-
-[node name="CanvasModulate" type="CanvasModulate" parent="."]
-position = Vector2(2, 2)
-color = Color(0, 0, 0, 1)

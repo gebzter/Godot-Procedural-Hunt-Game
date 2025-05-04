@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bflephttf0ui8"
+path="res://.godot/imported/Latcher Passive 4.mp3-9ba8d7db1945064f5de8c8d4361a2417.mp3str"
+
+[deps]
+
+source_file="res://Enemy/Latcher/Audio/Latcher Passive 4.mp3"
+dest_files=["res://.godot/imported/Latcher Passive 4.mp3-9ba8d7db1945064f5de8c8d4361a2417.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

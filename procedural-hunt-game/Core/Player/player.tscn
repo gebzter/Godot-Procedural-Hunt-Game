@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://dfmsrqigdoqxe" path="res://Core/Player/Player.cs" id="1_v0iea"]
 [ext_resource type="PackedScene" uid="uid://cfljducpcdnuv" path="res://Core/Player/player_tracks.tscn" id="2_cvnsp"]
-[ext_resource type="SpriteFrames" uid="uid://btonxtnkmbqxg" path="res://Assets/Sprites/Sprite Frames/Player.tres" id="4_fkybt"]
-[ext_resource type="Texture2D" uid="uid://d13as006qe6co" path="res://Assets/Sprites/2d_lights_and_shadows_neutral_point_light.webp" id="4_vgqql"]
-[ext_resource type="Texture2D" uid="uid://p35gw55bg6wd" path="res://Assets/Sprites/Gradient_Cone.png" id="4_x3wgy"]
+[ext_resource type="SpriteFrames" uid="uid://btonxtnkmbqxg" path="res://Sprites/Sprite Frames/Player.tres" id="4_fkybt"]
+[ext_resource type="Texture2D" uid="uid://d13as006qe6co" path="res://Sprites/2d_lights_and_shadows_neutral_point_light.webp" id="4_vgqql"]
+[ext_resource type="Texture2D" uid="uid://p35gw55bg6wd" path="res://Sprites/Gradient_Cone.png" id="4_x3wgy"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_v0iea"]
 radius = 6.0

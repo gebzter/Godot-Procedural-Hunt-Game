@@ -1,4 +1,4 @@
-namespace Core;
+namespace Core.Visuals;
 
 using Godot;
 using System;
