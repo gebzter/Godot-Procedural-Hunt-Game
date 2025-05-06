@@ -4,6 +4,7 @@ using Core.Player;
 using Godot;
 using System;
 
+//spawns webs for Latcher enemy.
 public partial class WebSpawner : Node2D
 {
 	[Export] private PackedScene _web;
@@ -15,7 +16,7 @@ public partial class WebSpawner : Node2D
 	[Export] private float _webCheckTolerance = 1.25f; //multiplier applied to secondary web raycast length to determine validity.
 
 	//places a web object between two walls.
-	public void PlaceWeb(RayCast2D rayCast, Player player)
+	public void PlaceWeb(RayCast2D rayCast, Player player, Latcher latcher)
 	{
 		Node2D newWeb = _web.Instantiate<Node2D>();
 		Web webScript = (Web) newWeb;
@@ -58,7 +59,11 @@ public partial class WebSpawner : Node2D
 			return;
 		}
 
-		GetParent().GetParent().AddChild(newWeb);
+		//subscribes methods to event.
+		webScript.WebCollisionEvent += latcher.OnWebCollision;
+		webScript.WebCollisionEvent += player.OnWebCollision;
+
+		GetTree().CurrentScene.AddChild(newWeb);
 	}
 
 	//fires 2 additional raycasts on either side of the web to determine if there is enough nearby terrain to anchor onto.

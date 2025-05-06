@@ -37,7 +37,7 @@ _chaseInterpolationWeight = 0.085
 _passiveDetectionRadius = 150.0
 _spawnRadius = 320.0
 _minWanderDuration = 5
-_maxWanderDuration = 30
+_maxWanderDuration = 10
 _visuals = NodePath("Visuals")
 _pathfindFalloff = 16.0
 
@@ -171,6 +171,7 @@ max_distance = 500.0
 [node name="WebSpawner" type="Node2D" parent="."]
 script = ExtResource("19_twmoe")
 _web = ExtResource("2_pmxc0")
+_minWebLength = 20.0
 _secondaryWebRaycastAngle = 0.175
 
 [connection signal="area_entered" from="TracksDetector" to="." method="OnAreaEntered"]

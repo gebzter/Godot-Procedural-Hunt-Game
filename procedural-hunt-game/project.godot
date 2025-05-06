@@ -32,6 +32,14 @@ window/stretch/scale_mode="integer"
 
 project/assembly_name="Procedural Hunt Game"
 
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_2="Wall"
+2d_physics/layer_3="Enemy"
+2d_physics/layer_4="Player Tracks"
+2d_physics/layer_5="Web"
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

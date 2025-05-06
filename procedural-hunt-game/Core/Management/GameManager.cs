@@ -51,7 +51,7 @@ public partial class GameManager : Node2D
 			GD.Print("Repositioning Enemy");
 		}
 
-		GetParent().AddChild(newLatcher);
+		GetTree().CurrentScene.AddChild(newLatcher);
 
 		_latcher.StartEnemyBehaviour();
 	} 

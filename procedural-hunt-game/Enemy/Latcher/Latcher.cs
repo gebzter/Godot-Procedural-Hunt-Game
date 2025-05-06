@@ -53,10 +53,17 @@ public partial class Latcher : Enemy
 			_wanderTimer = random.Next(_minWanderDuration, _maxWanderDuration);
 			_wanderTargetPos = MapGenerator.GetRandomPosition(random);
 
-			_webSpawner.PlaceWeb(_rayCast, Player);
+			_webSpawner.PlaceWeb(_rayCast, Player, this);
 		}
 
 		Pathfind(_wanderTargetPos, _wanderInterpolationWeight);
+	}
+
+	public void OnWebCollision()
+	{
+		GD.Print("L: Web Collision detected");
+		_lastPlayerPos = Player.GlobalPosition; //enemy hunts player.
+		Behaviour = EnemyBehaviour.Hunt;
 	}
 
 	//pathfinds to last position player was detected at.
@@ -70,7 +77,6 @@ public partial class Latcher : Enemy
 	{
 		Pathfind(Player.GlobalPosition, _chaseInterpolationWeight);
 	}
-
 
 	//called every physics cycle.
     public override void _PhysicsProcess(double delta)

@@ -33,4 +33,21 @@ public partial class Web : Node2D
 
 		GD.Print("Web initialised: " + Anchor1 + " " + Anchor2);
 	}
+
+	public event Action WebCollisionEvent; //event for notifying when the player has collided with the web.
+
+    public void WebCollision() //function used whenever action is fired.
+    {
+        if (WebCollisionEvent != null) //checks that there are methods subscribed to event.
+        {
+            WebCollisionEvent(); //fires event.
+        }
+    }
+
+	//called when colliding with player layer from signal.
+	public void _on_area_2d_body_entered(Node2D body)
+	{
+		WebCollision();
+		QueueFree();
+	}
 }
