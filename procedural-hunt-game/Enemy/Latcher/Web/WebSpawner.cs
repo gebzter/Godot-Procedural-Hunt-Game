@@ -59,10 +59,6 @@ public partial class WebSpawner : Node2D
 			return;
 		}
 
-		//subscribes methods to event.
-		webScript.WebCollisionEvent += latcher.OnWebCollision;
-		webScript.WebCollisionEvent += player.OnWebCollision;
-
 		GetTree().CurrentScene.AddChild(newWeb);
 	}
 

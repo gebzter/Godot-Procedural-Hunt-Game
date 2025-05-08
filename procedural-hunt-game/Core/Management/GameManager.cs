@@ -19,10 +19,37 @@ public partial class GameManager : Node2D
 
 	private Latcher _latcher;
 
+	public static event Action RestartGameEvent;
+
+	public static void RestartGame() //function used to fire action.
+    {
+        if (RestartGameEvent != null) //checks that there are methods subscribed to event.
+        {
+            RestartGameEvent(); //fires event.
+        }
+    }
+
+	private void OnRestartGame()
+	{
+		GetTree().CallDeferred("reload_current_scene");
+	}
+
 	public override void _Ready()
 	{
+		//subscribes method to event.
+		RestartGameEvent += OnRestartGame;
+
 		StartGame();
 	}
+
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+
+		//unsubscribes method from event.
+		RestartGameEvent -= OnRestartGame;
+    }
+
 
 	//async method to ensure that each game component is run in the correct order.
 	private async void StartGame()

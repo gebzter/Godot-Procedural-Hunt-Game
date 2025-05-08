@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://civyoxlhsyxtj"]
+[gd_scene load_steps=23 format=3 uid="uid://civyoxlhsyxtj"]
 
 [ext_resource type="PackedScene" uid="uid://mvplw0r0hn27" path="res://Core/Management/game_manager.tscn" id="1_3t67a"]
 [ext_resource type="PackedScene" uid="uid://bf5fktdo5m6gx" path="res://Enemy/Latcher/latcher.tscn" id="2_2f3xa"]
@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://cmy8xc1465jgh" path="res://Core/Management/MapGeneration/Room Scenes/T-Junction Rooms/roomT04.tscn" id="18_tkitp"]
 [ext_resource type="PackedScene" uid="uid://c4gx71nta86eb" path="res://Core/Management/MapGeneration/Room Scenes/Crossroad Rooms/roomC02.tscn" id="19_a4dfi"]
 [ext_resource type="PackedScene" uid="uid://domgji2hd7xi1" path="res://Core/Management/MapGeneration/grid_test_widget.tscn" id="20_7304m"]
+[ext_resource type="Script" uid="uid://bfm3vdakn0kdq" path="res://Core/Visuals/FadeOverlay.cs" id="21_2f3xa"]
 [ext_resource type="PackedScene" uid="uid://5u1y0g2gogoq" path="res://Core/Player/player.tscn" id="21_ernaw"]
 
 [node name="Main" type="Node2D"]
@@ -43,6 +44,16 @@ position = Vector2(6.99999, 34)
 scale = Vector2(100, 100)
 color = Color(0.129412, 0.121569, 0.0941176, 1)
 polygon = PackedVector2Array(-119.75, -72.15, 121.25, -72.45, 122.45, 71.3, -120.65, 72.2)
+
+[node name="FadeOverlay" type="Polygon2D" parent="." node_paths=PackedStringArray("_polygon")]
+z_index = 20
+position = Vector2(6.99999, 34)
+scale = Vector2(100, 100)
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(-119.75, -72.15, 121.25, -72.45, 122.45, 71.3, -120.65, 72.2)
+script = ExtResource("21_2f3xa")
+_polygon = NodePath(".")
+_fadeDuration = 5.0
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 position = Vector2(2, 2)

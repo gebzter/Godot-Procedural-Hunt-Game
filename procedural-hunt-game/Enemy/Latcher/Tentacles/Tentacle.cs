@@ -16,12 +16,10 @@ public partial class Tentacle : Node2D
 	[Export] private Latcher _latcher;
 	[Export] private Node2D _segmentWrapper; //empty node used to group segments together.
 
-	[Export] private float _lungeForce, _retractForce;
+	[Export] private float _lungeForce;
 	[Export] private Vector2 _forceDirection = new Vector2(0, 0);
 	[Export] private int _maxLungeInterval, _minLungeInterval; //time between lunges in milliseconds.
-	[Export] private int _retractInterval; //time between retractions in milliseconds.
 	
-	private bool _continueLunging = true;
 	private RigidBody2D _tipRb;
 
 
@@ -41,27 +39,36 @@ public partial class Tentacle : Node2D
 
 			((TentacleSegment) segment).InitialiseJoint(); //initialises the nodes for each joint for each segment.
 		}
-
-        Lunges();
     }
 
+	private double _lungeIntervalTimer = 0;
 
+	private Random _random = new Random();
 
-	private async void Lunges()
-	{
-		Random random = new Random();
+	//tracks whether next movement should be a lunge or a retraction.
+	private bool _lungeNext = true;
 
-		while (_continueLunging)
+    public override void _PhysicsProcess(double delta)
+    {
+        if (_lungeIntervalTimer > 0)
 		{
-			await Task.Delay(random.Next(_minLungeInterval, _maxLungeInterval));
+			_lungeIntervalTimer -= delta;
+			return;
+		}
 
+		if (_lungeNext)
+		{
 			_tipRb.ApplyForce(DetermineForceDirection() * _lungeForce);
-
-			await Task.Delay(_retractInterval);
-
+		}
+		else
+		{
 			_tipRb.ApplyForce(DetermineForceDirection() * -_lungeForce);
 		}
-	}
+
+		_lungeNext = !_lungeNext;
+		
+		_lungeIntervalTimer = _random.Next(_minLungeInterval, _maxLungeInterval) / 1000;
+    }
 
 	private Vector2 DetermineForceDirection()
 	{

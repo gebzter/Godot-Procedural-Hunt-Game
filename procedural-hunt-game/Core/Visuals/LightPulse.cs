@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 //script that periodically pulses light.
 
-
 public partial class LightPulse : PointLight2D
 {
 	[Export] private PointLight2D _light;
@@ -14,38 +13,39 @@ public partial class LightPulse : PointLight2D
 	[Export] private float _maxEnergy;
 	[Export] private int _pulseInterval, _pulseDuration; //in milliseconds.
 
-	[Export] private float _pulseFrames;
+	[Export] private double _intervalTimer = 0;
+	[Export] private double _pulseTimer = 0;
+	[Export] private double _fadeTimer = 0;
 
-	private bool _continuePulses = true;
-
-    public override void _Ready()
+    public override void _PhysicsProcess(double delta)
     {
-		Pulses();
-    }
-
-	private async void Pulses()
-	{
-		while (_continuePulses == true && _pulseInterval != 0)
+		//waiting between pulses.
+        if (_intervalTimer > 0)
 		{
-			//gets brighter.
-			await Task.Delay(_pulseInterval);
-
-			for (int i = 0; i < _pulseFrames; i++)
-			{
-				_light.Energy += _maxEnergy / _pulseFrames;
-				await Task.Delay((int) Math.Round(0.5f * _pulseDuration / _pulseFrames));
-			}
-
-			_light.Energy = _maxEnergy;
-
-			//gets dimmer.
-			for (int i = 0; i < _pulseFrames; i++)
-			{
-				_light.Energy -= _maxEnergy / _pulseFrames;
-				await Task.Delay((int) Math.Round(0.5f * _pulseDuration / _pulseFrames));
-			}
-
-			_light.Energy = 0;
+			_intervalTimer -= delta;
+			return;
 		}
-	}
+
+		//pulse is getting brighter.
+		if (_pulseTimer > 0)
+		{
+			_pulseTimer -= delta;
+			_light.Energy += _maxEnergy * (float) delta;
+			return;
+		}
+
+		//getting dimmer.
+		if (_fadeTimer > 0)
+		{
+			_fadeTimer -= delta;
+			_light.Energy -= _maxEnergy * (float) delta;
+			return;
+		}
+
+		_light.Energy = 0;
+
+		_intervalTimer = _pulseInterval;
+		_pulseTimer = _pulseDuration / 2;
+		_fadeTimer = _pulseDuration / 2;
+    }
 }

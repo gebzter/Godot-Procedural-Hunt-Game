@@ -21,6 +21,16 @@ public partial class Web : Node2D
 		set { _anchor2 = value; }
 	}
 
+	public static event Action WebCollisionEvent; //event for notifying when the player has collided with the web.
+
+    public void WebCollision() //function used to fire action.
+    {
+        if (WebCollisionEvent != null) //checks that there are methods subscribed to event.
+        {
+            WebCollisionEvent(); //fires event.
+        }
+    }
+
 	public override void _Ready()
 	{
 		float length = Anchor1.DistanceTo(Anchor2) / _resolution;
@@ -34,18 +44,8 @@ public partial class Web : Node2D
 		GD.Print("Web initialised: " + Anchor1 + " " + Anchor2);
 	}
 
-	public event Action WebCollisionEvent; //event for notifying when the player has collided with the web.
-
-    public void WebCollision() //function used whenever action is fired.
-    {
-        if (WebCollisionEvent != null) //checks that there are methods subscribed to event.
-        {
-            WebCollisionEvent(); //fires event.
-        }
-    }
-
 	//called when colliding with player layer from signal.
-	public void _on_area_2d_body_entered(Node2D body)
+	public void OnArea2DBodyEntered(Node2D body)
 	{
 		WebCollision();
 		QueueFree();

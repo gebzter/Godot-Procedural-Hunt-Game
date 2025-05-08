@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bf5fktdo5m6gx"]
+[gd_scene load_steps=24 format=3 uid="uid://bf5fktdo5m6gx"]
 
 [ext_resource type="Script" uid="uid://bsbd4xet5t5wf" path="res://Enemy/Latcher/Latcher.cs" id="1_kwc7l"]
 [ext_resource type="PackedScene" uid="uid://bmvddx0kbdm4w" path="res://Enemy/Latcher/Tentacles/short_tentacle.tscn" id="2_jcvw6"]
@@ -27,6 +27,8 @@ colors = PackedColorArray(0, 0, 0, 0.694118, 0, 0, 0, 0)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_613su"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_twmoe"]
+
 [node name="Latcher" type="Node2D" node_paths=PackedStringArray("_webSpawner", "_rayCast", "_visuals")]
 script = ExtResource("1_kwc7l")
 _webSpawner = NodePath("WebSpawner")
@@ -43,7 +45,7 @@ _pathfindFalloff = 16.0
 
 [node name="Visuals" type="Node2D" parent="."]
 
-[node name="PointLight2D" type="PointLight2D" parent="Visuals" node_paths=PackedStringArray("_light")]
+[node name="PulseLight" type="PointLight2D" parent="Visuals" node_paths=PackedStringArray("_light")]
 scale = Vector2(2, 2)
 color = Color(0.466034, 0.795744, 1.80972e-05, 1)
 energy = 0.0
@@ -54,9 +56,8 @@ texture = ExtResource("2_miwey")
 script = ExtResource("3_xbsc3")
 _light = NodePath(".")
 _maxEnergy = 0.2
-_pulseInterval = 5000
-_pulseDuration = 500
-_pulseFrames = 10.0
+_pulseInterval = 5
+_pulseDuration = 3
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Visuals"]
 visible = false
@@ -91,7 +92,7 @@ damping_min = 300.0
 damping_max = 600.0
 scale_amount_max = 4.0
 
-[node name="Slime Trail Particles" type="CPUParticles2D" parent="Visuals"]
+[node name="SlimeTrailParticles" type="CPUParticles2D" parent="Visuals"]
 amount = 32
 lifetime = 10.0
 emission_shape = 1
@@ -153,7 +154,6 @@ _distantSounds = Array[AudioStreamMP3]([ExtResource("7_1iebl"), ExtResource("9_1
 _passiveSounds = Array[AudioStreamMP3]([ExtResource("10_xbsc3"), ExtResource("11_pmxc0"), ExtResource("12_twmoe"), ExtResource("13_vv024")])
 _aggressiveSounds = Array[AudioStreamMP3]([ExtResource("7_pq3oc"), ExtResource("15_enn66"), ExtResource("16_lmgl2")])
 _latcher = NodePath("..")
-_minSoundInterval = 1000
 _distantThreshold = 600
 _streamPlayer = NodePath("Directional Audio Player")
 
@@ -163,7 +163,7 @@ volume_db = -10.0
 autoplay = true
 panning_strength = 3.0
 
-[node name="SlitherAudio" parent="." instance=ExtResource("6_1iebl")]
+[node name="SlitherAudio" parent="AudioController" instance=ExtResource("6_1iebl")]
 stream = ExtResource("17_1xrap")
 autoplay = true
 max_distance = 500.0
@@ -174,4 +174,12 @@ _web = ExtResource("2_pmxc0")
 _minWebLength = 20.0
 _secondaryWebRaycastAngle = 0.175
 
-[connection signal="area_entered" from="TracksDetector" to="." method="OnAreaEntered"]
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+scale = Vector2(1.1, 1.1)
+shape = SubResource("CircleShape2D_twmoe")
+
+[connection signal="area_entered" from="TracksDetector" to="." method="OnTracksDetectorAreaEntered"]
+[connection signal="body_entered" from="HitBox" to="." method="OnHitBoxBodyEntered"]

@@ -11,10 +11,8 @@ _tipSegment = NodePath("Anchor/Node/Segments/TentacleSegment10")
 _anchor = NodePath("Anchor")
 _segmentWrapper = NodePath("Anchor/Node/Segments")
 _lungeForce = 25000.0
-_retractForce = 600.0
 _maxLungeInterval = 3000
 _minLungeInterval = 1500
-_retractInterval = 1200
 
 [node name="Anchor" type="StaticBody2D" parent="."]
 collision_layer = 0

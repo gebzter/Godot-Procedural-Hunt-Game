@@ -1,5 +1,6 @@
 namespace Enemy.Latcher;
 
+using Core.Management.GameManager;
 using Godot;
 using System;
 using System.Collections.Generic;
@@ -42,7 +43,32 @@ public partial class Latcher : Enemy
 	[Export] private int _minWanderDuration, _maxWanderDuration;
 	private Godot.Vector2 _wanderTargetPos = new Godot.Vector2(0, 0); //random position used with wandering algorithm.
 
+	public override void _Ready()
+	{
+		//subscribes method to event.
+		Web.WebCollisionEvent += OnWebCollision;
+	}
 
+	public override void _ExitTree()
+	{
+		base._ExitTree();
+
+		//unsubscribes method from event.
+		Web.WebCollisionEvent -= OnWebCollision;
+	}
+
+	public void OnWebCollision()
+	{
+		GD.Print("L: Web Collision detected");
+		_lastPlayerPos = Player.GlobalPosition; //enemy hunts player.
+		Behaviour = EnemyBehaviour.Hunt;
+	}
+
+	//called when player enters enemy hitbox.
+	public void OnHitBoxBodyEntered(Node2D body)
+	{
+		GameManager.RestartGame();
+	}
 
 	//periodically pathfinds to random tile.
 	private void Wander()
@@ -57,13 +83,6 @@ public partial class Latcher : Enemy
 		}
 
 		Pathfind(_wanderTargetPos, _wanderInterpolationWeight);
-	}
-
-	public void OnWebCollision()
-	{
-		GD.Print("L: Web Collision detected");
-		_lastPlayerPos = Player.GlobalPosition; //enemy hunts player.
-		Behaviour = EnemyBehaviour.Hunt;
 	}
 
 	//pathfinds to last position player was detected at.
@@ -148,7 +167,7 @@ public partial class Latcher : Enemy
 	}
 
 	//called when Area2D enters this Node's Area2D.
-	public void OnAreaEntered(Area2D area)
+	public void OnTracksDetectorAreaEntered(Area2D area)
 	{
 		if (Player == null) //negates race condition when enemy is instantiated.
 		{

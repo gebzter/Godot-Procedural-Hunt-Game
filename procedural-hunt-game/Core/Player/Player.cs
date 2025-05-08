@@ -4,6 +4,8 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
+using Enemy.Latcher;
+
 public partial class Player : CharacterBody2D
 {
 	//references.
@@ -30,6 +32,20 @@ public partial class Player : CharacterBody2D
 	{
 		get { return _effectHolder; }
 		set { _effectHolder = value; }
+	}
+
+	public override void _Ready()
+	{
+		//subscribes method to event.
+		Web.WebCollisionEvent += OnWebCollision;
+	}
+
+	public override void _ExitTree()
+	{
+		base._ExitTree();
+		
+		//unsubscribes method from event.
+		Web.WebCollisionEvent -= OnWebCollision;
 	}
 
 	public override void _PhysicsProcess(double delta)
